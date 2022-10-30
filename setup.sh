@@ -2,8 +2,10 @@
 
 ONBOARD_USER=onboard
 ONBOARD_GROUP=$ONBOARD_USER
-ONBOARD_ROOT=/home/$ONBOARD_USER/onboard
-ONBOARD_GIT="https://github.com/vemarsas/onboard.git"
+ONBOARD_SUBDIR=mgy-onboard
+ONBOARD_ROOT=/home/$ONBOARD_USER/$ONBOARD_SUBDIR
+ONBOARD_GIT="https://github.com/vemarsas/mgy-onboard.git"
+ONBOARD_BRANCH=main
 
 install_conffiles() {
 	cd $ONBOARD_ROOT
@@ -12,7 +14,7 @@ install_conffiles() {
 }
 
 setup_core() {
-  echo " Installing core and OpenVPN functionality..."
+  echo " Installing core functionality..."
 
   apt-get update
   apt-get -y upgrade
@@ -23,11 +25,11 @@ setup_core() {
 
   su - $ONBOARD_USER -c "
   if [ -d onboard ]; then
-    cd onboard
+    cd $ONBOARD_SUBDIR
     git remote set-url origin $ONBOARD_GIT
     git pull --ff-only origin margay || true
   else
-    git clone -b margay $ONBOARD_GIT
+    git clone -b $ONBOARD_BRANCH $ONBOARD_GIT
     # HTTPS passwords have been disabled by GitHub, allow at least to store tokens...
     git config --global credential.helper store
   fi
@@ -39,9 +41,7 @@ setup_core() {
 
   bash etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
 
-  bash modules/openvpn/etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
-
-  # Raspbian section
+   # Raspbian section
 
   # Disable pi user, with its insecure default password...
   if id -u pi 2> /dev/null; then # DO not show missing user error here...
@@ -83,60 +83,23 @@ setup_core() {
   systemctl enable ssh
 }
 
+setup_ovpn() {
+  echo " Installing OpenVPN functionality..."
+  cd $ONBOARD_ROOT
+  bash modules/openvpn/etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
+}
+
 setup_ap() {
   echo " Installing Wireless Access Point functionality..."
   cd $ONBOARD_ROOT
   bash modules/ap/etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
 }
 
-setup_hotspot() {
-  echo " Installing Hotspot/RADIUS functionality..."
-  cd $ONBOARD_ROOT
-  bash modules/radius-admin/etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
+run() {
+  setup_core  | tee -a /var/log/mgyinstall.log
+  setup_ovpn  | tee -a /var/log/mgyinstall.log
+  setup_ap    | tee -a /var/log/mgyinstall.log
 }
 
-setup_virt() {
-  echo " Installing Virtualization functionality..."
-  cd $ONBOARD_ROOT
-  bash modules/qemu/etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
-}
 
-run_interactive() {
-  # Contributed by <marco.piscopia@vemarsas.it>
-
-  clear
-  echo 'Select one or more between following options:'
-  echo
-  echo '0) Default = core and openvpn functionality'
-  echo '1) Hotspot/RADIUS functionality'
-  echo '2) Virtualization functionality'
-  echo '3) Wireless Access Point functionality'
-  echo
-  echo 'Eg.Usage:   0 2 3   [Enter]'
-  echo
-  echo -n 'Options: '
-  read opt1 opt2 opt3 opt4
-  opt=($opt1 $opt2 $opt3 $opt4)
-
-  for op in "${opt[@]}"; do
-    case "$op" in
-    0)
-      setup_core | tee -a /var/log/mgyinstall.log
-      ;;
-    1)
-      setup_hotspot | tee -a /var/log/mgyinstall.log
-      ;;
-    2)
-      setup_virt | tee -a /var/log/mgyinstall.log
-      ;;
-    3)
-      setup_ap | tee -a /var/log/mgyinstall.log
-      ;;
-    *)
-      echo " Option not provided"
-      ;;
-    esac
-  done
-}
-
-run_interactive
+run
