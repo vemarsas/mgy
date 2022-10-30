@@ -5,3 +5,9 @@
 <!-- * Don&rsquo;t be a backcronym -->
 
 A simplified Margay/OnBoard which only covers basic/general networking, plus OpenVPN, and does not try to reinvent Init.
+
+## Setup
+
+```bash
+bash -c "$(wget -O - https://raw.githubusercontent.com/vemarsas/mgy/main/setup.sh)"
+```
