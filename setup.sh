@@ -13,7 +13,7 @@ install_conffiles() {
 	install -bvC -m 440 etc/sudoers			/etc/
 }
 
-setup_core() {
+setup_initial() {
   echo " Installing core functionality..."
 
   apt-get update
@@ -37,11 +37,7 @@ setup_core() {
 
   install_conffiles # including sudoers
 
-  cd $ONBOARD_ROOT
-
-  bash etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
-
-   # Raspbian section
+  # Raspbian section
 
   # Disable pi user, with its insecure default password...
   if id -u pi 2> /dev/null; then # DO not show missing user error here...
@@ -83,6 +79,12 @@ setup_core() {
   systemctl enable ssh
 }
 
+setup_core() {
+  echo " Installing core functionality..."
+  cd $ONBOARD_ROOT
+  bash etc/scripts/platform/debian/setup.sh $ONBOARD_ROOT $ONBOARD_USER
+}
+
 setup_ovpn() {
   echo " Installing OpenVPN functionality..."
   cd $ONBOARD_ROOT
@@ -96,9 +98,10 @@ setup_ap() {
 }
 
 run() {
-  setup_core  | tee -a /var/log/mgyinstall.log
-  setup_ovpn  | tee -a /var/log/mgyinstall.log
-  setup_ap    | tee -a /var/log/mgyinstall.log
+  setup_initial | tee -a /var/log/mgyinstall.log
+  setup_core    | tee -a /var/log/mgyinstall.log
+  setup_ovpn    | tee -a /var/log/mgyinstall.log
+  setup_ap      | tee -a /var/log/mgyinstall.log
 }
 
 
