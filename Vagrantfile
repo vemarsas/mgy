@@ -7,8 +7,8 @@ DEBIAN_BOX = "debian/bullseye64"
 COMMON_MESSAGE = "To setup Margay (if not done already):
   vagrant ssh <mgy OR mgy_downstr>
   sudo -i
-  bash -c \"$(wget -O - https://raw.githubusercontent.com/vemarsas/margay/master/setup)\"
-# See also https://github.com/vemarsas/margay/blob/master/README.md"
+  bash -c \"$(wget -O - https://raw.githubusercontent.com/vemarsas/mgy/main/setup.sh)\"
+"
 ENABLE_PASSWD = <<-END
   sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
   systemctl restart sshd.service
