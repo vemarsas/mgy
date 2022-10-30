@@ -9,17 +9,14 @@ set +e
 # is copied / placed in the relevant directory with proper
 # ownership/permissions.
 # This script takes control from there.
-# Another script may be implemented for that very initial
-# bootstrap instead, and will likely not be used by Vagrant but only for
-# deployment on real hardware or "naked" VMs.
+# Another script has been implemented for that very initial
+# bootstrap: it is located at top-level dir of this project
+# and it is named setup.sh as well (at the time of writing this note).
 
 # echo $* # DEBUG
 
-
 PROJECT_ROOT=${1:-`pwd`}
 APP_USER=${2:-'onboard'}
-
-CONFDIR=~$APP_USER/.onboard
 
 SCRIPTDIR=$PROJECT_ROOT/etc/scripts
 
@@ -32,34 +29,6 @@ install_conffiles() {
 
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.conf     /etc/
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.d/*:*    /etc/usb_modeswitch.d/
-}
-
-bundle_without_all() {
-    groups=''
-    for mod in `ls $PROJECT_ROOT/modules` ; do
-        if [ -f $PROJECT_ROOT/modules/$mod/Gemfile ]; then
-            if [ ! -f $PROJECT_ROOT/modules/$mod/.enable ]; then
-                groups="$groups $mod"
-            fi
-        fi
-    done
-    echo "$groups" | xargs
-}
-
-disable_app_modules() {
-    for dir in $PROJECT_ROOT/modules/* ; do
-        if [ ! -d $CONFDIR ]; then
-            # If this is a fresh install (or a vagrant up after a vagrant destroy),
-            # the .enable file is likely stale; and we don't want to enable a module for which
-            # the dependencies are not installed yet.
-            rm -f $dir/.enable
-        fi
-        if [ ! -f $dir/.enable ]; then
-            file=$dir/.disable
-            touch $file
-            chown $APP_USER $file
-        fi
-    done
 }
 
 disable_dhcpcd_master() {
@@ -81,7 +50,6 @@ setup_nginx() {
     systemctl reload nginx
 }
 
-
 cd $PROJECT_ROOT
 
 apt-get update
@@ -98,7 +66,6 @@ su - $APP_USER -c "
     cd $PROJECT_ROOT
     # Module names are also Gemfile groups
     set -x
-    bundle config set without $(bundle_without_all)
     bundle install
 "
 
@@ -114,14 +81,9 @@ disable_dhcpcd_master
 sysctl --load=/etc/sysctl.conf
 sysctl --load=$PROJECT_ROOT/doc/sysadm/examples/etc/sysctl.conf
 
-# Disable the legacy SysV service, now "margay".
-# Use "onboard.service", not simply "onboard", to not confuse with mere user login session...
-if ( systemctl list-units --all | grep onboard.service ); then
-    # Stop if running
-    if ( systemctl status onboard.service ); then
-        systemctl stop onboard.service
-    fi
-    systemctl disable onboard.service
+# Disable the legacy persist service: we rely on /etc now...
+if ( systemctl list-units --all | grep margay-persist.service ); then
+    systemctl disable margay-persist.service
 fi
 
 cat > /etc/systemd/system/margay.service <<EOF
@@ -143,31 +105,10 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOF
 
-cat > /etc/systemd/system/margay-persist.service <<EOF
-[Unit]
-Description=Margay restore-persistent/teardown service
-After=network.target
-
-[Service]
-Type=oneshot
-User=$APP_USER
-WorkingDirectory=$PROJECT_ROOT
-ExecStart=/usr/bin/env ruby onboard.rb --restore --no-web
-ExecStop=/usr/bin/env ruby onboard.rb --shutdown --no-web
-SyslogIdentifier=margay-persist
-RemainAfterExit=true
-StandardOutput=journal
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
 systemctl daemon-reload
 
 systemctl enable margay
 systemctl start margay
-
-systemctl enable margay-persist
 
 cd $PROJECT_ROOT  # Apparently needed...
 
