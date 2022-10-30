@@ -1,2 +1,2 @@
 # mgy
-Keep the wild cat simple
+Keep the wild cat simple.
