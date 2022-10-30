@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+# Restore IP addresses on an OpenVPN TAP device
+#
+# ENVIRONMENT: (from openvpn --setenv)
+#
+# RUBYLIB
+#   prepend to the standard Ruby $LOAD_PATH
+#
+# NETWORK_INTERFACES_DATFILE
+#   YAML (was Marshal) dump of the saved interfaces state
+#
+# STATIC_ROUTES_DATFILE
+#   saved output of "ip -[6|4] route show proto static"
+#
+# bridge_to
+#   (TAP only) add to bridge
+#
+# COMMAND LINE ARGUMENTS:
+#
+# ARGV[0]
+#   interface name (automatically appended by openvpn --up)
+#
+#
+# EXAMPLE:
+#
+# RUBYLIB=/home/onboard/onboard/lib NETWORK_INTERFACES_DATFILE=/home/onboard/onboard/etc/config/network/interfaces.yml ./up ovpn_tap0
+
+# require 'pp' # DEBUG
+
+# Use the same version as the stdlib;
+# prevent something like https://github.com/ruby/psych/issues/503.
+gem 'psych', '< 4.0.0'
+require 'psych'
+
+require 'onboard/logger'
+OnBoard.use_default_logfile  # instead of STDOUT
+
+require 'onboard/network/interface'
+require 'onboard/network/routing'
+
+
+OnBoard::LOGGER.info "#{__FILE__} #{ARGV.join(' ')}  started."
+
+ifname = ARGV[0]
+
+all_interfaces = OnBoard::Network::Interface.getAll
+
+if File.exists? ENV['NETWORK_INTERFACES_DATFILE']
+  begin
+    all_interfaces_saved =
+        YAML.load File.read ENV['NETWORK_INTERFACES_DATFILE']
+  rescue Exception# Psych::SyntaxError (and others?)
+    # Handle the case when you get a .dat (Marshal) instead of
+    # a .yml file (legacy stuff)
+    if ENV['NETWORK_INTERFACES_DATFILE'] =~ /^(.+)\.([^\.]+)$/
+      noext, ext = $1, $2
+      unless ext =~ /^ya?ml$/i
+        ymlfile = "#{noext}.yml"
+        if File.readable? ymlfile
+          ENV['NETWORK_INTERFACES_DATFILE'] = ymlfile
+          retry
+        end
+      end
+    end
+    raise # if you reach this point, the problem has not been handled
+  end
+else
+  all_interfaces_saved = []
+end
+
+# Arrays of one element (for compatibility)
+netifs = all_interfaces.select{|x| x.name == ifname}
+netifs_saved = all_interfaces_saved.select{|x| x.name == ifname}
+
+OnBoard::Network::Interface.restore(
+  :saved_interfaces => netifs_saved,
+  :current_interfaces => netifs
+)
+
+# For bridged TAP, implement our own persistence...
+if ENV['bridge_to'] =~ /\S/
+  br = OnBoard::Network::Bridge.get_all.find{|b| b.name == ENV['bridge_to']}
+  if br
+    OnBoard::System::Command.send_command \
+      "ip link set up dev #{ifname}",
+      :sudo
+    OnBoard::System::Command.send_command \
+      "brctl addif \"#{ENV['bridge_to']}\" #{ifname}",
+      :sudo
+  end
+end
+
+OnBoard::Network::Routing::Route.restore_static(
+  :match => lambda { |line| line =~ /dev\s+#{ifname}/ },  # Linux iproute2 syntax
+  :file => ENV['STATIC_ROUTES_DATFILE']
+)
+
+OnBoard::LOGGER.info "#{__FILE__} #{ARGV.join(' ')} finished."

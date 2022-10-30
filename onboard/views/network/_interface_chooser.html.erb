@@ -1,0 +1,24 @@
+<%
+  require 'onboard/network/interface'
+
+	all_interfaces    ||= OnBoard::Network::Interface.getAll.sort_by &(
+		OnBoard::Network::Interface::PREFERRED_ORDER
+	)
+  print_bridge_info ||= false
+  selected_if       ||= lambda {|x| false} # as in <option selected ... >
+  select_style      ||= nil
+%>
+            <select name="<%= select_name %>" style="<%= select_style %>">
+              <option value=""></option>
+              <% all_interfaces.each do |iface| %>
+                <%
+                  bridge_info = nil
+                  if print_bridge_info
+                    bridge_info = "(bridge)" if iface.bridge?
+                    bridge_info = "(bridge port -> #{iface.bridged_to})" if iface.bridged?
+                  end
+                %>
+              <option value="<%= iface.name %>" <%= 'selected' if selected_if.call(iface) %>><%= iface.name %><% if bridge_info %> <%= bridge_info %><% end %></option>
+              <% end %>
+            </select>
+

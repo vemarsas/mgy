@@ -1,0 +1,619 @@
+2022.02.01
+
+* Fix file permission security concern (private TLS keys no longer group-readable)
+* openvpn: `topology subnet` instead of deprecated `net30`: allows nets as small as /29
+* openvpn: clients: replace deprecated `ns-cert-type server` with `remote-cert-tls server`
+* openvpn: do not cache passwords in memory (`auth-nocache`)
+* openvpn: deprecate compression: disabled by default, available for backward compatibility
+
+2022.01.00
+
+* Use ERB instead of erubis (erubis not updated since 2011 and was causing Bundler errors)
+
+2021.08.03
+
+* Handle YAML/Psych imcompatibility
+
+2021.08.02
+
+* More tolerant regex when parsing qemu snapshot list
+
+2021.08.01
+
+* Handle unparsed ip route output lines
+
+2021.08
+
+* VLAN 802.1Q tagging / trunks
+
+2021.05.01
+
+* Fixes for Debian 11 / bullseye
+
+2021.05
+
+* SNAT JSON API (and) doc
+
+2021.04
+
+* SNAT: form support for iptables [-s <ip>] [--sport <port/range>]
+
+2021.03
+
+* DNAT JSON API (and) doc
+
+2020.10.01
+
+* Hotspot/Chilli: Improved fixed IP support
+* Fix view of non-standard network interfaces
+
+2020.07.01
+
+* Display version on homepage
+* Fix Rack security alerts
+
+2020.07
+
+* Fix delay on mobile data usb modems
+
+2020.02
+
+* RADIUS simple self-documenting API root
+
+2020.01
+
+* Chilli: MAC-based Authentication
+
+2019.16.2
+
+* upgrade Rack (and other dependencies) to fix a vulnerability
+* address deprecation of --bundle-without
+
+2019.16.1
+
+* OpenVPN: "fix" out-of-range Time error
+
+2019.16
+
+* OpenVPN per-client Push-route metrics
+
+* CAN-bus network interface type
+
+2019.15
+
+* CAN-bus network interface type
+
+2019.14
+
+* QEMU 3/4 support
+* Setup scripts with option to upgrade to Debian 11/bullseye, thus including QEMU 4
+
+2019.13.1
+
+* Fix setup scripts
+* Fixsupport for  no-usb systems
+
+2019.13
+
+* The connection with year-month in versioning is so loose than "13" is
+possible as a minor version number. It's kinda semantic versioning :)
+
+* Multi-PKI support for OpenVPN and in general
+
+2019.12.05
+
+* TLS/easy-rsa: recommend/default a 2048 key size
+
+2019.12.04
+
+* TLS backward compatibility options for OpenVPN server
+
+2019.12.03
+
+* (Supersedes 2019.12.02)
+* Quick DNSmasq file fix
+
+2019.12.01
+
+* Fix OpenVPN: --up scripts and ghost duplicates in list
+
+2019.12
+
+* Wireless Access Point management (hostapd) web ui
+
+2019.11
+
+* Routing metrics, ReST API and doc
+
+2019.10.01
+
+* Install / config usb-modeswitch for Huawei Hilink modems
+
+2019.10
+
+* Fix Hardware detection for network interfaces on Raspberry (and potentially other systems)
+* Remove Wicd daemon from deployment (caused issues on DHCP client functionality)
+* Implicitly connects to 3G/4G "as Ethernet" with HiLink modems
+
+2019.04
+
+* Support FreeRADIUS 3
+* Provisioning: Vagrant and bare-Debian (see also https://github.com/vemarsas/margay)
+* JSON/ReST: allowing POST / PUT in JSON format too (instead of form-encoded only).
+
+2015.07
+
+* Use Bundler
+
+* chilli: handle pidfile mismatches
+
+* mail: relax tls hostname check
+	* due to heavy use of customer domain names (with ISP cert)
+
+* QEMU: waiting mechanism fot TAP interface to show up
+
+2014.06.02
+
+* YAML fixes in Network::Interface and IP:
+	* local persistance, NOT data export, save as Ruby objects!
+
+2014.06.01
+
+* OpenVPN fixes:
+	* get rid of Zippy unmaintained incompatibilities
+	* consolidate YAML as internal persistance, NOT data export
+
+2014.06
+
+* OpenVPN: bridge persistence
+
+* Dnsmasq: fix: get rid of --local-services from Debain script
+	* it caused problems when serving QEMU guests, not being
+	recognized as local
+
+2014.05
+
+* QEMU: preserve data from unwanted application of stale snapshots
+
+2013.12
+
+* Persistence: Marshal -> YAML for portability (core and openvpn)
+	* In addition, persist non running openvpn instances across web
+	interface restarts
+
+* AAA: doc improvements (Thanks to Francesco Tripiciano - www.fusiontec.it)
+
+* QEMU:
+	* Advanced configuration tab: Run as root and Edit cmdline
+	* Host serial ports support
+	* doc fixes
+
+2013.11
+
+* QEMU:
+	* Gluster: sanitize image names containing spaces (see c3bfd49)
+	* use QMP to get runtime drives info
+		* auto-udate configs with no QMP
+	* -rtc base=localtime for Windows guests
+
+2013.10.03
+
+* Fix missing i18n in RADIUS selfcare
+
+2013.10.02
+
+* AAA/RADIUS/HOTSPOT:
+	* Password recovery: short note on public url
+
+2013.10.01
+
+* hotspotlogin: form field to edit password recovery URL (was missing, fixed)
+
+2013.10
+
+* AAA/RADIUS/HOTSPOT:
+	* Password recovery (via email)
+	* Login-Time
+	* RADIUS operator fixes, to allow a reasonable fall-through
+
+* mail module
+
+* Design:
+	* include Configurable
+
+2013.09.03
+
+* hotspotlogin: cookie-based user/password persistance can be disallowed
+
+2013.09.02
+
+* AAA/RADIUS/HOTSPOT:
+	* Check Attributes operator fixes to get a "reasonable" user-group
+	Fall-Through.
+
+2013.09.01
+
+* AAA/RADIUS/HOTSPOT:
+	* Login-Time support
+	* Sequel / db fixes:
+		* use Sequel.like
+		* referential integrity on User#delete!
+	* (r)doc fixes
+	* fix Fall-Through
+	* fix user "(no password)" - e.g. to use group passwords
+
+2013.09
+
+* AAA/RADIUS/HOTSPOT:
+	* User deletion
+	* Handle deprecation/removal of Hash-based aliases feauture in Sequel: https://github.com/jeremyevans/sequel/pull/373#issuecomment-1792266
+	* Explicit (in-method) loading of pagination extension
+
+* Dnsmasq:
+	* Simple start for non-SysVInit systems e.g. Ubuntu and others
+
+2013.05.04
+
+* QEMU:
+	* reset hw lists after executable change
+	* support disk image path with spaces (closes #108)
+	* some improved startup/restore error handlings
+	* supports -vga (closes #110)
+
+* Policy Routing:
+	* restore rule 0:
+		so a possible, scheduled ./restore.sh or similar could
+		recover from a disastrous ``local'' table removal
+
+* Init:
+	* ensure that /etc/init.d/onboard stop has been completed before halting the machine
+
+* Design: OnBoard::Error now inherits from StandardError,
+	so a default rescue would catch it
+
+* DansGuardian: move maxuploadsize to filter group
+
+2013.05.03
+
+* DansGuardian: update config templates
+
+2013.05.02
+
+* [Coova]Chilli:
+	* allow static IPs
+	* do not show spurious records only due to forking
+	* json fixes
+
+* QEMU:
+	* prepare pci passthrough: fix 'type' vs 'driver' in config file
+	* disable USB 3 (breaks snapshots):
+		* reported at: http://bugs.launchpad.net/qemu/+bug/1185888
+	* fix monitor parsing for qemu 1.5
+
+* DHCP client:
+	* fix dhcp detection
+	* dhcpcd5
+	* --persistent (try to not loose connection setting to static)
+
+* System::Process.running?
+
+* Export config: add var/www
+
+2013.05.01
+
+* QEMU:
+	* various fixes (mainly presentation)
+	* vm: jQueryUI tabs (double layer)
+
+* jQueryUI:
+	* embedded in core dirs, available to any modules
+	* CSS fixes
+
+* LSUSB:
+	* skip '0000' vendorid
+
+2013.05
+
+* QEMU:
+	* USB and PCI Pass-Through
+		* supports pci-assign and VFIO and all USB versions
+	* GlusterFS and distributed storage native support
+	* Snapshot fixes
+	* suggest "slots" for new disks
+	* disable JS autorefresh for now (not robust at all)
+
+* Hardware::LSUSB library
+
+* OpenVPN: fix vpn deletion
+
+* System/Logs: fix log detection
+
+* Policy Routing: fix style inconsistencies
+
+* Core Ruby extensions: fix String#to_i
+
+2013.03.04
+
+* AAA/Hotspot/RADIUS:
+	* redirect users after a successful registration (signup)
+	* localized error and welcome messages
+
+2013.03.03
+
+* QEMU/KVM:
+	* (ui) JS autorefresh (single VM page only)
+		* actually use the JSON API from JS refresh code (only :vmid/running.json)
+		* load HTML snippets elsewhere (no iframes)
+	* (ui, minor) slightly enlarge screenshot
+	* (system) further socket permission fixes
+	* (config) more robustness on invalid .yml files
+	* (disk) multiple disk and choose among VirtIO, ATA and SCSI "slots"
+	* (disk) show img virtual size
+
+* OpenVPN:
+	* (client side wizard) fix template path
+
+* cross-module fixes:
+	* work-around conflict (Facets vs Sequel on Hash#|)
+		* involves radius-admin and qemu
+
+* core:
+	* Rack auth fix / workaround (never authenticated HTTP basic when daemonized)
+	* system/log fixes (OpenVPN logs were Not Found)
+	* (snat) handle corner cases (no chains)
+	* (dnsmasq) don't enable tftp (on a non-existent dir :-p)
+	* (dnsmasq) skip --host-record on buggy/lacking Dnsmasq versions
+
+2013.03.02
+
+* openvpn: push a deliberately high route metric
+	* you can push-route your entire office LAN with no conflicts when you are
+	  at the office itself
+
+* Hostname:
+	* Hostname.be_resolved ("autoresolve"): avoid messing with public IPs
+	* "warn" when configured FQDN does not match a reverse DNS query for machine
+	  configured IPs
+	* minor fixes
+
+2013.03.01
+
+* Shutdown fixes
+	* Confirm checkbox, noop response
+
+* Fix logs management
+
+* Selective activation of "public layout" configuration interface
+
+2013.03
+
+* System shutdown / reboot
+
+* System hostname / domain name
+	* DNSmasq hooks/triggers
+	* Simplify local domain user interface
+
+* Fix a jqueryFIleTree infinite loop
+
+2013.02.01
+
+* fix a serious ArgumentError which breaks QEMU view
+
+2013.02
+
+* Unix system/login password
+	* may be changed via the web interface (onboard and root)
+	* handle ro/rw filesystem (via System::FS new module)
+	* do not touch locked root login (sudo-only setups)
+
+* Some error handling cleanup
+
+* System::Command.send_command (improves System::Command.run)
+
+* Better behavior on Voyage Linux (embedded Debian with ro filesystem)
+
+* QEMU/KVM: slight VNC/SPICE/video improvements (code and documentation)
+
+2013.01
+
+* QEMU improvements
+	* USB disk/pendrive support
+	* sound support and some (attempted) SPICE multimedia optimizations
+	* socket file permission fixes
+
+* RADIUS/HotSpotLogin fixes
+
+* Gem/library/dependency fixes
+
+* Doc fixes
+
+2012.05.01
+
+* QEMU improvements
+	* -smp
+	* SPICE may be disabled
+	* edit vm, replace disk image with a new one
+	* allow diskless vm (avoid NoMethodError)
+
+2012.05
+
+* QEMU/KVM virtualization module
+
+2012.01.02
+
+* fix bridged interfaces
+	* "ip addr" shell command now inserts "master brname" to its output
+	* do not hide on single-interface page
+
+2012.01.01
+
+* jqueryFileTree integration (to be used by other modules)
+
+2012.01
+
+* Sinatra 1.3 compatibility
+
+2011.09.01
+
+* fix for new Sinatra versions
+* fix dir creation in startup shell scripts
+
+2011.09
+
+* "mobile" pages for RADIUS HotSpot Signup/Selfcare
+
+2011.08.05
+
+* fix RADIUS selfcare password update
+
+2011.08.04
+
+* fix String 'smart encoding' by removing useless over-engineering...
+	* avoid unacceptable time-consuming loops on low-end machines (mainly when
+	viewing/editing DansGuardian weighted phrase lists)
+
+2011.08.03
+
+* hotspot: miscellaneous view fixes
+
+2011.08.02
+
+* update lighty+chilli+hotspotlogin example
+
+* reset form on successful radius signup
+	* also, send Location header on 201 Created
+
+* prevent radius endusers to access other's data, even if they have same password
+
+* RADIUS signup form, more "optinfo"
+
+2011.08.01
+
+* RADIUS signup: preserve form data after a validation failure
+
+2011.08
+
+* Public Interface (mainly for HotSpot end users)
+
+* radius-admin:
+	* end user signup and selfcare
+	* localization
+	* document upload
+
+* Further modularization: Sinatra helpers, etc.
+
+2011.03.03
+
+openvpn --local
+
+2011.03.02
+
+* OpenVPN: client wizard: fix TCP mode
+
+2011.03.01
+
+* DansGuardian: some error handling
+
+2011.03.00.alpha2
+
+* DansGuardian JSON/YAML export
+
+2011.03.00.alpha1
+
+* DansGuardian module
+
+2010.12.02
+
+* chilli: postauthproxy and postauthproxyport
+
+2010.12.01
+
+* radius-admin: fix #51
+	* group list displayed attributes incorrectly
+
+2010.12
+
+* FreeRADIUS Administration
+	* users, groups and accounting on MySQL database
+
+2010.11.03
+
+* Chilli Improvements:
+	* NAS-Port-Type w/ autodetection
+	* NAS-Identifier
+
+* new module: radius-core
+	* a support module including files from a Radiustar fork
+
+2010.11.02
+
+* HotSpotLogin fixes:
+	* "Your Org. Name" field (aka --custom-headline)
+	* prevent logo image caching by browsers, via ?nocache=<unique-id>
+
+2010.11.01
+
+* You can disable a module by creating modules/module_name/.disable
+
+2010.11
+
+* Captive portal
+	* hotspotlogin module
+		* strongly founded on CoovaChilli features, namely JSON interface
+	* chilli module
+		* no wpa, statip and mac auth, just web hotspot login
+	* requires a RADIUS server (not managed by OnBoard yet)
+
+2010.10.03
+
+* Dns(masq): customize/block domains
+
+2010.10.02
+
+* OpenVPN client-side configuration wizard
+
+2010.10.01
+
+* Improved JSON/YAML support
+
+* "Alternate formats" bar
+
+2010.10
+
+* OpenVPN: push routes to "All Clients"
+
+* OpenVPN: code re-arrangement
+
+2010.09.01
+
+* Minor/implementation: use stdlib for JSON pretty-printed output
+
+2010.09
+
+* JavaScript menus based on hierarchical_menu gem
+
+2010.08
+
+* A separate, writeable directory for configuration, log, pids and so on.
+
+* Export configuration.
+
+2010.07
+
+* OpenVPN
+	* Virtual Ethernets (TAP), allowing IPv6 and bridging
+	* TAP configured persistently like normal ethernets
+
+2010.06
+
+* Policy routing based on:
+	* source address
+	* input interface
+	* input bridge port
+	* QoS classification (via netfilter packet mangling)
+
+2009.12
+
+* First release, with OpenVPN and SSL/X509 management.
+
+

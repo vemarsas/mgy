@@ -1,0 +1,21 @@
+<%
+  pkiname = params[:pkiname]
+%>
+<h2>Certificate</h2>
+<% if msg[:ok] %>
+  <p>Certificate has been successfully created.</p>
+<% else %>
+  <div class="error">
+    <p style="font-style: italic;">
+      Request was not fulfilled due to the reported errors:
+    </p>
+    <% if msg[:err_html] =~ /\S/ %>
+      <p><%= msg[:err_html] %></p>
+    <% else %>
+      <pre><%= msg[:err] %></pre>
+    <% end %>
+    <pre><%= msg[:stderr] %></pre>
+  </diV>
+<% end %>
+<p>(Back to <a href="../<%= pkiname %>.html"><em>SSL keys and certificates</em></a>)</p>.
+
