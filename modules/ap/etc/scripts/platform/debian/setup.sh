@@ -1,7 +1,7 @@
 #!/bin/bash
 
-APP_USER=onboard
-PROJECT_ROOT=/home/$APP_USER/onboard
+PROJECT_ROOT=${1:-`dirname $0`/../../../../../..}
+APP_USER=${2:-'onboard'}
 
 SCRIPTDIR=$PROJECT_ROOT/etc/scripts
 
