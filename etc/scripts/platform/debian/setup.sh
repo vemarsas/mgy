@@ -66,7 +66,7 @@ su - $APP_USER -c "
     cd $PROJECT_ROOT
     # Module names are also Gemfile groups
     set -x
-    bundle install
+    bundle install --deployment
 "
 
 modprobe nf_conntrack

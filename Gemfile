@@ -1,3 +1,5 @@
+source "https://rubygems.org"
+
 source "https://rubygems.org" do
 
   # A few of the below are currently only required by certain modules.
