@@ -1,7 +1,3 @@
-source "https://rubygems.org"
-
-MODULESDIR = File.dirname(__FILE__) + '/modules'
-
 source "https://rubygems.org" do
 
   # A few of the below are currently only required by certain modules.
@@ -29,16 +25,4 @@ source "https://rubygems.org" do
     gem 'rack-test', '~> 0.6.3'
     gem 'json_spec', '~> 1.1', '>= 1.1.5'
   end
-
-  # Modules
-  Dir.foreach(MODULESDIR) do |mod|
-    next if ['..', '.'].include? mod
-    gemfile = "#{MODULESDIR}/#{mod}/Gemfile"
-    if File.exists? gemfile
-      group mod.to_sym do
-        eval_gemfile gemfile
-      end
-    end
-  end
-
 end
