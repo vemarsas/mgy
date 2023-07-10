@@ -1,0 +1,3 @@
+---
+# but keep development mode (not deployment), so you can update Gemfile.lock or even remove it
+BUNDLE_PATH: "vendor/bundle"
