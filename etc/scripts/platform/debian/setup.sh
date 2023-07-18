@@ -93,7 +93,7 @@ fi
 cat > /etc/systemd/system/margay.service <<EOF
 [Unit]
 Description=Margay Service
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -104,6 +104,7 @@ ExecStart=/usr/bin/env ruby onboard.rb
 SyslogIdentifier=margay
 Restart=on-failure
 # Other Restart options: always, on-abort, on-failure etc
+RestartSec=4
 
 [Install]
 WantedBy=multi-user.target
