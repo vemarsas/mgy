@@ -9,9 +9,6 @@ set +e
 # is copied / placed in the relevant directory with proper
 # ownership/permissions.
 # This script takes control from there.
-# Another script has been implemented for that very initial
-# bootstrap: it is located at top-level dir of this project
-# and it is named setup.sh as well (at the time of writing this note).
 
 # echo $* # DEBUG
 
@@ -55,7 +52,14 @@ cd $PROJECT_ROOT
 apt-get update
 apt-get -y upgrade
 
-apt-get -y install ruby ruby-dev ruby-rack ruby-rack-protection ruby-locale sudo iproute2 iptables bridge-utils pciutils usbutils usb-modeswitch dhcpcd5 dnsmasq resolvconf locales ifrename build-essential ca-certificates libssl-dev ntp psmisc
+apt-get -y install \
+    ruby ruby-dev ruby-rack ruby-rack-protection ruby-locale \
+    sudo locales psmisc \
+    iproute2 iptables bridge-utils dhcpcd5 dnsmasq resolvconf ifrename ntp \
+    openvpn hostapd \
+    pciutils usbutils usb-modeswitch \
+    build-essential \
+    ca-certificates libssl-dev 
 
 install_conffiles
 
@@ -89,7 +93,7 @@ fi
 cat > /etc/systemd/system/margay.service <<EOF
 [Unit]
 Description=Margay Service
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -100,6 +104,7 @@ ExecStart=/usr/bin/env ruby onboard.rb
 SyslogIdentifier=margay
 Restart=on-failure
 # Other Restart options: always, on-abort, on-failure etc
+RestartSec=4
 
 [Install]
 WantedBy=multi-user.target
