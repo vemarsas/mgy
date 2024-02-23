@@ -1,6 +1,6 @@
 # Margay (Leopardus wiedii) main web app
 
-A simplified Margay/OnBoard which only covers basic/general networking, plus OpenVPN, and does not try to reinvent Init.
+Covers basic/general networking, plus OpenVPN. Aims at using OS (mostly Debian) persistance and configusation.
 
 ## Setup
 
