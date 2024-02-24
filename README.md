@@ -1,6 +1,6 @@
 # Wiedii (Leopardus wiedii) main web app
 
-Covers basic/general networking, plus OpenVPN. Aims at using OS (mostly Debian) persistance and configusation.
+Covers basic/general networking, plus OpenVPN. Aims at using OS (mostly Debian) persistance and configuration.
 
 ## Setup
 
