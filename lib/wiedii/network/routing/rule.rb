@@ -1,11 +1,11 @@
 require 'facets/hash'
 require 'facets/array'
 
-require 'onboard/extensions/string'
-require 'onboard/extensions/ipaddr'
-require 'onboard/network/interface/ip'
+require 'wiedii/extensions/string'
+require 'wiedii/extensions/ipaddr'
+require 'wiedii/network/interface/ip'
 
-class OnBoard
+class Wiedii
   module Network
     module Routing
       class Rule

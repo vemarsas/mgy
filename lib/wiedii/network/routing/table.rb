@@ -2,14 +2,14 @@ require 'forwardable'
 require 'set'
 require 'logger'
 
-require 'onboard/extensions/ipaddr'
-require 'onboard/system/command'
-require 'onboard/network/routing/constants'
-require 'onboard/network/routing/route'
-require 'onboard/network/interface'
+require 'wiedii/extensions/ipaddr'
+require 'wiedii/system/command'
+require 'wiedii/network/routing/constants'
+require 'wiedii/network/routing/route'
+require 'wiedii/network/interface'
 
 
-class OnBoard
+class Wiedii
 
   LOGGER ||= Logger.new(STDERR)
 
@@ -277,7 +277,7 @@ class OnBoard
         def delete!
           all_rules = Rule.getAll
           if all_rules.detect{|rule| Routing::Table.number(rule.table) == self.number}
-            raise OnBoard::Network::Routing::RulesExist,
+            raise Wiedii::Network::Routing::RulesExist,
                 'Couldn\'t delete: one or more rules still refer to this routing table! Delete them and try again.'
           end
           ip_route_flush
@@ -340,13 +340,13 @@ class OnBoard
         def to_yaml(*a); to_h.to_yaml(*a); end
 
         def ip_route_flush
-          msg = OnBoard::System::Command.run "ip route flush table #{@id}", :sudo
+          msg = Wiedii::System::Command.run "ip route flush table #{@id}", :sudo
         end
 
         def ip_route_del(str, opt_h={})
           opt_h = {:af => 'inet'}.merge opt_h
           af = opt_h[:af]
-          msg = OnBoard::System::Command.run "ip -f #{af} route del #{str} table #{@id}", :sudo
+          msg = Wiedii::System::Command.run "ip -f #{af} route del #{str} table #{@id}", :sudo
           return msg
         end
 
@@ -356,10 +356,10 @@ class OnBoard
           cmd = "ip route add #{str} table #{n}"
           if opts.include? :try
             return \
-                OnBoard::System::Command.run cmd, :sudo, :try
+                Wiedii::System::Command.run cmd, :sudo, :try
           else
             return \
-                OnBoard::System::Command.run cmd, :sudo
+                Wiedii::System::Command.run cmd, :sudo
           end
         end
 
@@ -368,7 +368,7 @@ class OnBoard
           n = number
           cmd = "ip route change #{str} table #{n}"
           opts << :sudo
-          OnBoard::System::Command.run "ip route change #{str} table #{n}", *opts
+          Wiedii::System::Command.run "ip route change #{str} table #{n}", *opts
         end
 
         extend Forwardable

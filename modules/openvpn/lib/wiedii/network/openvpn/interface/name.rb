@@ -1,9 +1,9 @@
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
-class OnBoard
+class Wiedii
   module Network
     module OpenVPN
-      class Interface < ::OnBoard::Network::Interface
+      class Interface < ::Wiedii::Network::Interface
         module Name
           def self.generate(extra='')
             n = 0

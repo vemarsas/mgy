@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     helpers do
@@ -38,11 +38,11 @@ class OnBoard
         # msg in such case.
         begin
           blk.call
-        rescue OnBoard::Error
+        rescue Wiedii::Error
           e = $!.clone
           status e.http_status_code
           @msg[:err] = e # will be converted to message string as needed
-        rescue OnBoard::Warning
+        rescue Wiedii::Warning
           @msg[:warn] = $!
         rescue StandardError
           if h = handle_external_errors($!, request)

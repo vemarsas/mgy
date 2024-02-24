@@ -1,9 +1,9 @@
 require 'fileutils'
 
-require 'onboard/system/process'
-require 'onboard/network/interface'
+require 'wiedii/system/process'
+require 'wiedii/network/interface'
 
-class OnBoard
+class Wiedii
   module Network
     module AP
 
@@ -106,7 +106,7 @@ EOF
           if running?(params)
             return System::Command.run "kill -HUP #{pid(params)}", :sudo
           else
-            return OnBoard::System::Command.run cmdline, :sudo
+            return Wiedii::System::Command.run cmdline, :sudo
           end
         else
           if running?(params)
@@ -123,7 +123,7 @@ EOF
       end
 
       def self.process(params)
-        return OnBoard::System::Process.new pid(params)
+        return Wiedii::System::Process.new pid(params)
       end
 
       def self.running?(arg)
@@ -136,7 +136,7 @@ EOF
         end
         if File.exists? pidfile(ifname)
           pid = File.read(pidfile(ifname)).to_i
-          return (OnBoard::System::Process.running? pid) && pid
+          return (Wiedii::System::Process.running? pid) && pid
         else
           return false
         end

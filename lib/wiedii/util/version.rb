@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module Util
     class Version < Array # Inherit or encapsulate?
       include Comparable
@@ -27,7 +27,7 @@ end
 class String
   alias __compare_orig <=>
   def <=>(other)
-    if other.is_a? OnBoard::Util::Version
+    if other.is_a? Wiedii::Util::Version
       -(other <=> self)
     else
       __compare_orig other

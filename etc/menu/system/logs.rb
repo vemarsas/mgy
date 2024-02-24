@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/system/logs', {
     :href     => '/system/logs',
     :children => %r{^/system/logs/.+},

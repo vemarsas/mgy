@@ -1,8 +1,8 @@
 require 'sinatra/base'
 
-require 'onboard/extensions/sinatra/base'
+require 'wiedii/extensions/sinatra/base'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     use Rack::JSONBodyParser

@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 

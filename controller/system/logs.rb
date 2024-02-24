@@ -1,11 +1,11 @@
 require 'sinatra/base'
 
-require 'onboard/system/log'
+require 'wiedii/system/log'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get %r{/system/logs} do
-    OnBoard::System::Log.load
+    Wiedii::System::Log.load
     pass
   end
 
@@ -13,7 +13,7 @@ class OnBoard::Controller
     format(
       :path     => 'system/logs',
       :format   => params[:format],
-      :objects  => OnBoard::System::Log , # yes, the class: a way to implement
+      :objects  => Wiedii::System::Log , # yes, the class: a way to implement
         # the Singleton pattern without creating "AllLogs"
       :title    => 'Logs'
     )
@@ -24,11 +24,11 @@ class OnBoard::Controller
       # Could be a full path or an identifying basname,
       # however, leading / is stripped from full paths url-encoded in the (.*)
     potential_absolute_path = File.join '/', logid
-    if potential_absolute_path.start_with? OnBoard::LOGDIR
+    if potential_absolute_path.start_with? Wiedii::LOGDIR
       path = potential_absolute_path
     else
-      # Require "registration" for logs outside ~/.onboard/var/log
-      hash = OnBoard::System::Log.getAll.detect do |h|
+      # Require "registration" for logs outside ~/.wiedii/var/log
+      hash = Wiedii::System::Log.getAll.detect do |h|
         h['id'] == logid or h['path'] == (File.join '/', logid)
       end
       not_found if not hash
@@ -47,9 +47,9 @@ class OnBoard::Controller
   get %r{/system/logs/(.*)\.([a-z]+)} do
     logid, fmt = params['captures']
     # Leading / is stripped from logid/path
-    hash = OnBoard::System::Log.getAll.detect {|h| h['id'] == logid or h['path'] == (File.join '/', logid)}
+    hash = Wiedii::System::Log.getAll.detect {|h| h['id'] == logid or h['path'] == (File.join '/', logid)}
     pass if not hash
-    log = OnBoard::System::Log.new(hash)
+    log = Wiedii::System::Log.new(hash)
     format(
       :path     => 'system/logs',
       :format   => fmt,
@@ -63,9 +63,9 @@ class OnBoard::Controller
   get %r{/system/logs/(.*)\.([\w\d]+)} do
     path, fmt = params[:captures]
     # p path # DEBUG
-    hash = OnBoard::System::Log.getAll.detect {|h| h['path'] == path}
+    hash = Wiedii::System::Log.getAll.detect {|h| h['path'] == path}
     not_found if not hash
-    log = OnBoard::System::Log.new(hash)
+    log = Wiedii::System::Log.new(hash)
     if fmt == 'raw'
       attachment(File.basename path)
       content_type 'text/plain'

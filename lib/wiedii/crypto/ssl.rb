@@ -1,7 +1,7 @@
-class OnBoard
+class Wiedii
   module Crypto
     module SSL
-      DATADIR               = OnBoard::CONFDIR + '/crypto/ssl'
+      DATADIR               = Wiedii::CONFDIR + '/crypto/ssl'
       DIR                   = DATADIR
       KEY_SIZES             = [4096, 2048, 1024]
 

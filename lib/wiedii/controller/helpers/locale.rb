@@ -3,7 +3,7 @@
 require 'locale'
 require 'sinatra/r18n'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 

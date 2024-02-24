@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get "/configuration/save.html" do
     format(
@@ -11,7 +11,7 @@ class OnBoard::Controller
   end
 
   post "/configuration/save.html" do
-    OnBoard.save! if params['save'] =~ /yes/i
+    Wiedii.save! if params['save'] =~ /yes/i
     format(
       :path     => '/configuration/save',
       :format   => 'html',
@@ -28,7 +28,7 @@ class OnBoard::Controller
   end
 
   get "/configuration.tgz" do
-    base = OnBoard::DATADIR
+    base = Wiedii::DATADIR
     subdirs = %w{etc/config var/lib var/www}.select do |subdir|
       File.exists? File.join base, subdir
     end

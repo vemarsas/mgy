@@ -1,15 +1,15 @@
 require 'fileutils'
-require 'onboard/crypto/ssl'
-require 'onboard/crypto/ssl/multi'
-require 'onboard/crypto/easy-rsa/ca'
-require 'onboard/crypto/easy-rsa/cert'
+require 'wiedii/crypto/ssl'
+require 'wiedii/crypto/ssl/multi'
+require 'wiedii/crypto/easy-rsa/ca'
+require 'wiedii/crypto/easy-rsa/cert'
 
-class OnBoard
+class Wiedii
   module Crypto
     module EasyRSA
 
-      SCRIPTDIR = OnBoard::ROOTDIR + '/modules/easy-rsa/easy-rsa/2.0'
-      DATADIR = OnBoard::RWDIR + '/var/lib/crypto/easy-rsa'
+      SCRIPTDIR = Wiedii::ROOTDIR + '/modules/easy-rsa/easy-rsa/2.0'
+      DATADIR = Wiedii::RWDIR + '/var/lib/crypto/easy-rsa'
 
       module Multi
 

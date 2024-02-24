@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module System
     class Log
       Tail_n = 120 # show the last Tail_n number of lines in HTML, JSON, YAML
@@ -15,8 +15,8 @@ class OnBoard
           # TODO: do not hardcode
           @logs ||= [
             {
-              'path'    => OnBoard::LOGFILE_PATH,
-              'id'      => OnBoard::LOGFILE_BASENAME,
+              'path'    => Wiedii::LOGFILE_PATH,
+              'id'      => Wiedii::LOGFILE_BASENAME,
               'desc'    => "Main log",
               'category'=> 'main'
             },
@@ -167,5 +167,5 @@ class OnBoard
   end
 end
 
-OnBoard::System::Log.set_defaults! # horrible
+Wiedii::System::Log.set_defaults! # horrible
 

@@ -1,8 +1,8 @@
 <%
-  require 'onboard/system/user'
+  require 'wiedii/system/user'
 
-  current_user  = OnBoard::System::User.current
-  root_user     = OnBoard::System::User.new 'root'
+  current_user  = Wiedii::System::User.current
+  root_user     = Wiedii::System::User.new 'root'
   root_passwd   = root_user.passwd
 %>
 

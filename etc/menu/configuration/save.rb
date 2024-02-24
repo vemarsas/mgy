@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/configuration/save', {
     :href => '/configuration/save',
     :name => 'Save changes',

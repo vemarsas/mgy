@@ -1,14 +1,14 @@
 require 'digest/md5'
 
-require 'onboard/exceptions'
-require 'onboard/extensions/string' # patched String#== is important here!
+require 'wiedii/exceptions'
+require 'wiedii/extensions/string' # patched String#== is important here!
 
-class OnBoard
+class Wiedii
   # This refers to the Web UI password(s?).
-  # For Unix login passwords look at the OnBoard::System::User namespace.
+  # For Unix login passwords look at the Wiedii::System::User namespace.
   module Passwd
     # Currently, just one user: admin .
-    PASSWD_DIR = OnBoard::CONFDIR + '/self/passwd'
+    PASSWD_DIR = Wiedii::CONFDIR + '/self/passwd'
     ADMIN_PASSWD_FILE = PASSWD_DIR + '/admin.md5.dat'
     DEFAULT_ADMIN_USERNAME = 'admin'
     DEFAULT_ADMIN_PASSWD = 'admin'

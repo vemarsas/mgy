@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module Network
     class Iptables
       def self.add_rule_from_HTTP_request(params)
@@ -91,7 +91,7 @@ class OnBoard
             end
           end
         end
-        msg = OnBoard::System::Command.run str, :sudo
+        msg = Wiedii::System::Command.run str, :sudo
         return msg
       end
 
@@ -109,12 +109,12 @@ class OnBoard
         str << '-t '      << params['table']         << ' ' if
             params['table'] =~ /\S/
         str << ' -D '     << params['chain']         << ' ' << params['rulenum']
-        msg = OnBoard::System::Command.run str, :sudo
+        msg = Wiedii::System::Command.run str, :sudo
         return msg
       end
 
       def self.get_rulespec(h)
-        iptablesobj = OnBoard::Network::Iptables.new(
+        iptablesobj = Wiedii::Network::Iptables.new(
           :ip_version => h[:ip_version] || '4',
           :tables     => [h[:table]]
         )
@@ -143,7 +143,7 @@ class OnBoard
         str << '-t '      << params['table']         << ' ' if
             params['table'] =~ /\S/
         str << '-I ' << params['chain'] << ' ' << position << ' ' << rulespec
-        return OnBoard::System::Command.run str, :sudo
+        return Wiedii::System::Command.run str, :sudo
       end
 
       def self.move_rule_up_from_HTTP_request(params)
@@ -157,18 +157,18 @@ class OnBoard
       def self.save
         ['iptables', 'ip6tables'].each do |ipt|
           cmdstr = ''
-          cmdstr << ipt << '-save > ' << OnBoard::CONFDIR << '/network/' <<
+          cmdstr << ipt << '-save > ' << Wiedii::CONFDIR << '/network/' <<
               ipt << '.save'
-          OnBoard::System::Command.run cmdstr, :sudo
+          Wiedii::System::Command.run cmdstr, :sudo
         end
       end
 
       def self.restore
         ['iptables', 'ip6tables'].each do |ipt|
-          file = OnBoard::CONFDIR + '/network/' + ipt + '.save'
+          file = Wiedii::CONFDIR + '/network/' + ipt + '.save'
           cmdstr = ''
           cmdstr << ipt << '-restore < ' << file
-          OnBoard::System::Command.run cmdstr, :sudo if File.exists? file
+          Wiedii::System::Command.run cmdstr, :sudo if File.exists? file
         end
       end
 
@@ -358,7 +358,7 @@ end
 
 if $0 == __FILE__
   require 'pp'
-  iptables = OnBoard::Network::Iptables.new
+  iptables = Wiedii::Network::Iptables.new
   iptables.parse_iptables_L('filter')
   pp iptables
 end

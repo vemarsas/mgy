@@ -1,24 +1,24 @@
-# OnBoard::Crypto::SSL is part of the core, while OnBoard::Crypto::EasyRSA
+# Wiedii::Crypto::SSL is part of the core, while Wiedii::Crypto::EasyRSA
 # is in a module and is just one of the ways to create/view certs via
 # helper scripts.
 
 require 'sinatra/base'
 
-require 'onboard/system/command'
-require 'onboard/crypto/easy-rsa'
-require 'onboard/crypto/ssl'
-require 'onboard/crypto/ssl/multi'
-require 'onboard/crypto/ssl/pki'
+require 'wiedii/system/command'
+require 'wiedii/crypto/easy-rsa'
+require 'wiedii/crypto/ssl'
+require 'wiedii/crypto/ssl/multi'
+require 'wiedii/crypto/ssl/pki'
 
-class OnBoard::Controller < Sinatra::Base
+class Wiedii::Controller < Sinatra::Base
 
   get '/crypto/easy-rsa.:format' do
-    OnBoard::Crypto::EasyRSA::Multi.handle_legacy
+    Wiedii::Crypto::EasyRSA::Multi.handle_legacy
     format(
       :module   => 'easy-rsa',
       :path     => '/crypto/easy-rsa/multi',
       :format   => params[:format],
-      :objects  => OnBoard::Crypto::SSL::Multi.get_pkis(),
+      :objects  => Wiedii::Crypto::SSL::Multi.get_pkis(),
       :title    => 'Public Key Infrastructures (PKIs)'
     )
   end
@@ -26,26 +26,26 @@ class OnBoard::Controller < Sinatra::Base
   post '/crypto/easy-rsa.:format' do
     params['pkiname'].strip!
     params['pkiname'].gsub! /\s/, '_'
-    OnBoard::Crypto::EasyRSA::Multi.add_pki(params['pkiname'])
+    Wiedii::Crypto::EasyRSA::Multi.add_pki(params['pkiname'])
     format(
       :module   => 'easy-rsa',
       :path     => '/crypto/easy-rsa/multi',
       :format   => params[:format],
-      :objects  => OnBoard::Crypto::SSL::Multi.get_pkis(),
+      :objects  => Wiedii::Crypto::SSL::Multi.get_pkis(),
       :title    => 'Public Key Infrastructures (PKIs)'
     )
   end
 
   get '/crypto/easy-rsa/:pkiname.:format' do
-    ssl_pki = OnBoard::Crypto::SSL::PKI.new params[:pkiname]
+    ssl_pki = Wiedii::Crypto::SSL::PKI.new params[:pkiname]
     not_found unless (ssl_pki.exists? or ssl_pki.system?)
-    easyrsa_pki = OnBoard::Crypto::EasyRSA::PKI.new params[:pkiname]
+    easyrsa_pki = Wiedii::Crypto::EasyRSA::PKI.new params[:pkiname]
     # create Diffie-Hellman params if they don't exist
     dsaparam_above = 2048
     if settings.development?  # Sinatra
       dsaparam_above = 1024
     end
-    OnBoard::Crypto::SSL::KEY_SIZES.each do |n|
+    Wiedii::Crypto::SSL::KEY_SIZES.each do |n|
       # One thread at a time for each key size.
       # If there is another PKI building DH params of the same key size,
       # it will wait...
@@ -68,8 +68,8 @@ class OnBoard::Controller < Sinatra::Base
   end
 
   delete '/crypto/easy-rsa/:pkiname.:format' do
-    easyrsa_pki = OnBoard::Crypto::EasyRSA::PKI.new params[:pkiname]
-    ssl_pki = OnBoard::Crypto::SSL::PKI.new params[:pkiname]
+    easyrsa_pki = Wiedii::Crypto::EasyRSA::PKI.new params[:pkiname]
+    ssl_pki = Wiedii::Crypto::SSL::PKI.new params[:pkiname]
     not_found unless easyrsa_pki.exists? or ssl_pki.exists?
     # TODO: handle errors
     easyrsa_pki.delete!
@@ -78,7 +78,7 @@ class OnBoard::Controller < Sinatra::Base
   end
 
   get '/crypto/easy-rsa/:pkiname/ca/index.txt' do
-    easyrsa_pki = OnBoard::Crypto::EasyRSA::PKI.new params[:pkiname]
+    easyrsa_pki = Wiedii::Crypto::EasyRSA::PKI.new params[:pkiname]
     index_txt = easyrsa_pki.keydir + '/index.txt'
     if File.exists? index_txt
       content_type 'text/plain'
@@ -93,7 +93,7 @@ class OnBoard::Controller < Sinatra::Base
   # CRL buggy even with single PKI
   get '/crypto/easy-rsa/default/ca/crl.:sslformat' do
     # CRL is stored in PEM format
-    crl_pem = OnBoard::Crypto::EasyRSA::KEYDIR + '/crl.pem'
+    crl_pem = Wiedii::Crypto::EasyRSA::KEYDIR + '/crl.pem'
     if File.exists? crl_pem
       case params[:sslformat]
       when 'pem'
@@ -115,10 +115,10 @@ class OnBoard::Controller < Sinatra::Base
 =end
 
   delete '/crypto/easy-rsa/:pkiname/ca.:format' do
-    easyrsa_pki = OnBoard::Crypto::EasyRSA::PKI.new params[:pkiname]
-    ssl_pki = OnBoard::Crypto::SSL::PKI.new params[:pkiname]
-    msg = OnBoard::System::Command.run <<EOF
-cd #{OnBoard::Crypto::EasyRSA::SCRIPTDIR}
+    easyrsa_pki = Wiedii::Crypto::EasyRSA::PKI.new params[:pkiname]
+    ssl_pki = Wiedii::Crypto::SSL::PKI.new params[:pkiname]
+    msg = Wiedii::System::Command.run <<EOF
+cd #{Wiedii::Crypto::EasyRSA::SCRIPTDIR}
 export KEY_DIR=#{easyrsa_pki.keydir}
 ./clean-all
 EOF
@@ -137,11 +137,11 @@ EOF
 
   post '/crypto/easy-rsa/:pkiname/ca.:format' do
     msg = {}
-    if msg[:err] = OnBoard::Crypto::EasyRSA::CA.HTTP_POST_data_invalid?(params)
+    if msg[:err] = Wiedii::Crypto::EasyRSA::CA.HTTP_POST_data_invalid?(params)
       # client sent invalid data
       status(400)
     else
-      msg = OnBoard::Crypto::EasyRSA::CA.create_from_HTTP_request(params)
+      msg = Wiedii::Crypto::EasyRSA::CA.create_from_HTTP_request(params)
       if msg[:ok]
         status(201)
       else # client sent a valid request but (server-side) errors occured
@@ -162,12 +162,12 @@ EOF
   post '/crypto/easy-rsa/:pkiname/certs.:format' do
     msg = {}
     if msg[:err] =
-        OnBoard::Crypto::EasyRSA::Cert.HTTP_POST_data_invalid?(params)
+        Wiedii::Crypto::EasyRSA::Cert.HTTP_POST_data_invalid?(params)
       # client sent invalid data
       #
       status(400)
     else
-      msg = OnBoard::Crypto::EasyRSA::Cert.create_from_HTTP_request(params)
+      msg = Wiedii::Crypto::EasyRSA::Cert.create_from_HTTP_request(params)
       if msg[:ok]
         status(201)
       elsif msg[:err] =~ /already exists/
@@ -192,8 +192,8 @@ EOF
     pkiname = params[:pkiname]
     certname = params[:name]
     msg = {:ok => true}
-    ssl_pki = OnBoard::Crypto::SSL::PKI.new(pkiname)
-    easyrsa_pki = OnBoard::Crypto::EasyRSA::PKI.new(pkiname)
+    ssl_pki = Wiedii::Crypto::SSL::PKI.new(pkiname)
+    easyrsa_pki = Wiedii::Crypto::EasyRSA::PKI.new(pkiname)
     certfile = File.join ssl_pki.certdir, "#{certname}.crt"
     keyfile = File.join ssl_pki.certdir, 'private', "#{certname}.key"
     certfile_easyrsa = File.join easyrsa_pki.keydir, "#{certname}.crt"
@@ -201,8 +201,8 @@ EOF
     csr_easyrsa = File.join easyrsa_pki.keydir, "#{certname}.csr"
 
     if File.exists? certfile_easyrsa
-      msg = OnBoard::System::Command.run <<EOF
-cd #{OnBoard::Crypto::EasyRSA::SCRIPTDIR}
+      msg = Wiedii::System::Command.run <<EOF
+cd #{Wiedii::Crypto::EasyRSA::SCRIPTDIR}
 . ./vars
 export CACERT=#{ssl_pki.cacertpath}
 export CAKEY=#{ssl_pki.cakeypath}

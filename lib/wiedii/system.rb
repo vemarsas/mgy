@@ -1,8 +1,8 @@
-class OnBoard
+class Wiedii
   module System
-    autoload :Command,  'onboard/system/command'
-    autoload :Log,      'onboard/system/log'
-    autoload :Process,  'onboard/system/process'
-    autoload :User,     'onboard/system/command'
+    autoload :Command,  'wiedii/system/command'
+    autoload :Log,      'wiedii/system/log'
+    autoload :Process,  'wiedii/system/process'
+    autoload :User,     'wiedii/system/command'
   end
 end

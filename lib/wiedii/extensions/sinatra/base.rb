@@ -2,7 +2,7 @@ module Sinatra
   class Base
 
     unless method_defined? :options
-      warn 'OnBoard: Sinatra::Base#options has been removed, aliasing to #settings'
+      warn 'Wiedii: Sinatra::Base#options has been removed, aliasing to #settings'
       alias options settings
     end
 

@@ -1,6 +1,6 @@
 require 'hmenu'
 
-class OnBoard
+class Wiedii
   module Menu
     class MenuNode < ::HMenu::Node
 

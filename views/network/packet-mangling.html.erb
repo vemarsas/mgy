@@ -1,9 +1,9 @@
 <%
   require 'pp'
 
-  require 'onboard/network/interface'
+  require 'wiedii/network/interface'
 
-  all_interfaces = OnBoard::Network::Interface.getAll_layer3
+  all_interfaces = Wiedii::Network::Interface.getAll_layer3
   interface_names = all_interfaces.map {|x| x.name}
 
   iptablesobj       = objects

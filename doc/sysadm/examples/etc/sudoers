@@ -17,9 +17,9 @@ Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/b
 # User privilege specification
 root	ALL=(ALL) ALL
 
-# Allow onboard user to execute any command with no password!
+# Allow wiedii user to execute any command with no password!
 # (Note that later entries override this, so you might need to move
 # it further down)
-onboard ALL=(ALL) NOPASSWD: ALL
+wiedii ALL=(ALL) NOPASSWD: ALL
 #
 #includedir /etc/sudoers.d

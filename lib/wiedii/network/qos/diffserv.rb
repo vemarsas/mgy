@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class OnBoard
+class Wiedii
   module Network
     module QoS
 

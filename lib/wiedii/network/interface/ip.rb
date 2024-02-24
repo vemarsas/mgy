@@ -1,7 +1,7 @@
 require 'socket'
 require 'forwardable'
 
-require 'onboard/extensions/ipaddr'
+require 'wiedii/extensions/ipaddr'
 
 # NOTE: the IPAddr std class cannot store the host AND the network IP address.
 # For example:
@@ -20,7 +20,7 @@ require 'onboard/extensions/ipaddr'
 # of IP addresses configuerd. For routing table entries, anyway, simple IPAddr
 # objects will be sufficent.
 
-class OnBoard
+class Wiedii
   module Network
     class Interface
       class IP
@@ -173,10 +173,10 @@ class OnBoard
         end
 
         # turn the @ip Array (made up of
-        # OnBoard::Network::Interface::IP objects) into an Hash of Strings,
+        # Wiedii::Network::Interface::IP objects) into an Hash of Strings,
         # just like what it would be received from an HTML form.
         #
-        # Just a wrapper around OnBoard::Network::Interface#assign_static_ip,
+        # Just a wrapper around Wiedii::Network::Interface#assign_static_ip,
         # which was designed to get form data, not saved marshaled objects.
         #
         # Also, we consider the JSON client,

@@ -17,24 +17,24 @@ autoload :Escape,     'escape'
 autoload :ERB,        'erb'
 autoload :YAML,       'yaml'
 
-require 'onboard/extensions/ipaddr'
-require 'onboard/extensions/openssl'
+require 'wiedii/extensions/ipaddr'
+require 'wiedii/extensions/openssl'
 
-require 'onboard/system/process'
-require 'onboard/crypto/ssl/pki'
-require 'onboard/network/interface'
-require 'onboard/network/routing/table'
-require 'onboard/network/openvpn/convert'
-require 'onboard/network/openvpn/process'
-require 'onboard/network/openvpn/interface/name'
+require 'wiedii/system/process'
+require 'wiedii/crypto/ssl/pki'
+require 'wiedii/network/interface'
+require 'wiedii/network/routing/table'
+require 'wiedii/network/openvpn/convert'
+require 'wiedii/network/openvpn/process'
+require 'wiedii/network/openvpn/interface/name'
 
-autoload :Log,        'onboard/system/log'
+autoload :Log,        'wiedii/system/log'
 
 # TODO TODO TODO
 # too many way to dentify a VPN: array_index, protable_id, uuid...
 # switch everything to uuid ?
 
-class OnBoard
+class Wiedii
   module Network
     module OpenVPN
 
@@ -47,7 +47,7 @@ class OnBoard
           # for Linux? unlimited?
 
       class VPN
-        CONFDIR = OnBoard::CONFDIR + '/network/openvpn/vpn'
+        CONFDIR = Wiedii::CONFDIR + '/network/openvpn/vpn'
 
         System::Log.register_category 'openvpn', 'OpenVPN'
 
@@ -205,12 +205,12 @@ class OnBoard
           cmdline << '--setenv' << 'HOME' << ENV['HOME']
           cmdline << '--setenv' << 'PATH' << ENV['PATH']
           cmdline << '--setenv' << 'bridge_to' << params['bridge_to']
-          cmdline << '--setenv' << 'RUBYLIB' << OnBoard::ROOTDIR + '/lib'
-          cmdline << '--setenv' << 'ONBOARD_DATADIR' << OnBoard::DATADIR
+          cmdline << '--setenv' << 'RUBYLIB' << Wiedii::ROOTDIR + '/lib'
+          cmdline << '--setenv' << 'ONBOARD_DATADIR' << Wiedii::DATADIR
           cmdline << '--setenv' << 'NETWORK_INTERFACES_DATFILE' <<
-              OnBoard::CONFDIR + '/network/interfaces.yml'
+              Wiedii::CONFDIR + '/network/interfaces.yml'
           cmdline << '--setenv' << 'STATIC_ROUTES_DATFILE' <<
-              OnBoard::CONFDIR + '/network/routing/static_routes'
+              Wiedii::CONFDIR + '/network/routing/static_routes'
           cmdline << '--persist-tun'
           cmdline << '--management' << '127.0.0.1' << reserved_tcp_port.to_s
           cmdline << '--daemon'

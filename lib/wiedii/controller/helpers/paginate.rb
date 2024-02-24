@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 
@@ -12,7 +12,7 @@ class OnBoard
       end
 
       def use_pagination_defaults()
-        params.update OnBoard::Pagination.normalize(params)
+        params.update Wiedii::Pagination.normalize(params)
       end
 
     end

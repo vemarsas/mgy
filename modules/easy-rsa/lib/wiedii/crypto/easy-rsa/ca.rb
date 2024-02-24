@@ -1,9 +1,9 @@
 require 'fileutils'
 
-require 'onboard/crypto/ssl/pki'
-require 'onboard/crypto/easy-rsa'
+require 'wiedii/crypto/ssl/pki'
+require 'wiedii/crypto/easy-rsa'
 
-class OnBoard
+class Wiedii
   module Crypto
     module EasyRSA
 

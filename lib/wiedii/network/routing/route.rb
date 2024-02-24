@@ -1,8 +1,8 @@
 require 'fileutils'
-require 'onboard/extensions/ipaddr'
-require 'onboard/network/routing/constants'
+require 'wiedii/extensions/ipaddr'
+require 'wiedii/network/routing/constants'
 
-class OnBoard
+class Wiedii
   module Network
     module Routing
       class Route
@@ -24,11 +24,11 @@ class OnBoard
         # opt_h[:match]
         # a lamda with a custom selection rule
         #
-        # With no args restore all routes, reading from file at standard OnBoard
+        # With no args restore all routes, reading from file at standard Wiedii
         # path.
         #
         # example (with args):
-        # OnBoard::Network::Routing::Route.restore_static(
+        # Wiedii::Network::Routing::Route.restore_static(
         #   :match => lambda do |line| { line =~ /dev eth0/ },  # Linux iproute2 syntax
         #   :file => '/path/to/file'
         # )

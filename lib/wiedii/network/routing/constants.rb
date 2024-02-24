@@ -1,9 +1,9 @@
-class OnBoard
+class Wiedii
   module Network
     module Routing
 
-      CONFDIR = OnBoard.const_defined?(:CONFDIR) ?
-        File.join(OnBoard::CONFDIR, 'network/routing') :
+      CONFDIR = Wiedii.const_defined?(:CONFDIR) ?
+        File.join(Wiedii::CONFDIR, 'network/routing') :
         nil
 
       class RulesExist < ::RuntimeError; end

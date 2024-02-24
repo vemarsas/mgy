@@ -4,9 +4,9 @@
   require 'i18n_data'
   require 'date'
 
-  require 'onboard/extensions/integer'
-  require 'onboard/crypto/easy-rsa'
-  require 'onboard/crypto/ssl'
+  require 'wiedii/extensions/integer'
+  require 'wiedii/crypto/easy-rsa'
+  require 'wiedii/crypto/ssl'
 
   pkiname = params[:pkiname]
 %>
@@ -75,7 +75,7 @@
           <td><%= '<strong class="superhighlight" title="Signed by our internal Certificate Authority">' if cert['signed_by_our_CA'] %><%= cert['cert']['issuer']['CN'] %><%= '</strong>' if cert['signed_by_our_CA'] %></td>
           <td>
             <%=
-              ::OnBoard::Crypto::SSL::x509_Name_Hash_to_html_address(
+              ::Wiedii::Crypto::SSL::x509_Name_Hash_to_html_address(
                 cert['cert']['subject']
               )
             %>
@@ -224,7 +224,7 @@
     <!--
     <li>
       Certificate Revocation List:
-      <%# if File.exists? OnBoard::Crypto::EasyRSA::CRL %>
+      <%# if File.exists? Wiedii::Crypto::EasyRSA::CRL %>
         <a title="CRL in PEM format" href="/crypto/easy-rsa/ca/crl.pem">
           <code>crl.pem</code>
         </a>,
@@ -285,7 +285,7 @@
       <tr>
         <td style="text-align:center;">
           <select name="key_size">
-            <% OnBoard::Crypto::SSL::KEY_SIZES.each do |ksiz| %>
+            <% Wiedii::Crypto::SSL::KEY_SIZES.each do |ksiz| %>
               <option value="<%= ksiz %>" <%= 'selected' if ksiz == 2048 %>> <%= ksiz %> <%= '(not recommended)' if ksiz < 2048 %> </option>
             <% end %>
           </select>

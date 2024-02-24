@@ -1,4 +1,4 @@
-require 'onboard/extensions/string'
+require 'wiedii/extensions/string'
 
 class File
   def self.valid_encodings(path)

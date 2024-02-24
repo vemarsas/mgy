@@ -1,13 +1,13 @@
-require 'onboard/constants'
+require 'wiedii/constants'
 # The above also fixes an issue when chain-loaded from openvpn --up script
 # (modules/openvpn/etc/scripts/up)
 # and possibly other places.
 
-class OnBoard
+class Wiedii
   module Hardware
     module SDIO
 
-      DATAFILE = File.join(OnBoard::ROOTDIR, 'share/hardware/sdio.ids')
+      DATAFILE = File.join(Wiedii::ROOTDIR, 'share/hardware/sdio.ids')
 
       class << self
 

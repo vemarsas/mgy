@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class OnBoard
+class Wiedii
   class Controller < Sinatra::Base
 
     class ArgumentError < ArgumentError; end # who uses this?

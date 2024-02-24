@@ -1,8 +1,8 @@
-class OnBoard
+class Wiedii
   module System
     module FS
 
-      autoload :Mount, 'onboard/system/fs/mount'
+      autoload :Mount, 'wiedii/system/fs/mount'
 
       class << self
 

@@ -1,9 +1,9 @@
 <%
-  require 'onboard/system/log'
-  require 'onboard/network/openvpn/convert'
+  require 'wiedii/system/log'
+  require 'wiedii/network/openvpn/convert'
 
   vpn = objects
-  log = OnBoard::System::Log.new({'path' => vpn.logfile})
+  log = Wiedii::System::Log.new({'path' => vpn.logfile})
 %>
 <style type="text/css">
   table tr td {
@@ -81,7 +81,7 @@ Certificate&rsquo;s&nbsp;CN:&nbsp;<code><%= vpn.data['cert']['subject']['CN'] %>
             <td></td>
             <%
               text = vpn.data['push'] ?
-                OnBoard::Network::OpenVPN::Convert.routes2textarea(vpn.data['push']['routes']) :
+                Wiedii::Network::OpenVPN::Convert.routes2textarea(vpn.data['push']['routes']) :
                 ''
             %>
             <td>
@@ -103,13 +103,13 @@ Certificate&rsquo;s&nbsp;CN:&nbsp;<code><%= vpn.data['cert']['subject']['CN'] %>
                   # h['iroutes'].each do |route|
                   #   text << "#{route['net']}/#{route['mask']}\n"
                   # end
-                  text = OnBoard::Network::OpenVPN::Convert.routes2textarea(h['iroutes'])
+                  text = Wiedii::Network::OpenVPN::Convert.routes2textarea(h['iroutes'])
                 %>
                 <textarea name="clients[][routes]" cols=<%= cols %> rows=<%= rows %> wrap=off><%= text %></textarea>
               </td>
               <td>
                 <%
-                  text = OnBoard::Network::OpenVPN::Convert.routes2textarea(h['push']['routes'])
+                  text = Wiedii::Network::OpenVPN::Convert.routes2textarea(h['push']['routes'])
                 %>
                 <textarea name="clients[][push_routes]" cols=<%= cols %> rows=<%= rows %> wrap=off><%= text %></textarea>
               </td>

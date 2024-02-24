@@ -1,6 +1,6 @@
-# **Margay's iptables/SNAT API v1**
+# **Wiedii's iptables/SNAT API v1**
 
-JSON API to manage SNAT in a Margay system.
+JSON API to manage SNAT in a Wiedii system.
 
 # *Preliminary info*
 

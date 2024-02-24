@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 
@@ -14,11 +14,11 @@ class OnBoard
       def authorized?
         @auth ||=  Rack::Auth::Basic::Request.new(request.env)
 
-        # Rack::Auth::Basic::Request#basic? turns false when OnBoard runs
+        # Rack::Auth::Basic::Request#basic? turns false when Wiedii runs
         # daemonized (via rackup file). So we don't check it.
         #
         if @auth.provided? && @auth.credentials
-          if File.exists? OnBoard::Passwd::ADMIN_PASSWD_FILE
+          if File.exists? Wiedii::Passwd::ADMIN_PASSWD_FILE
             return (
               @auth.credentials[0] == 'admin' &&
               Passwd.check_admin_pass(@auth.credentials[1])

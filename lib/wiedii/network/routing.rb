@@ -1,11 +1,11 @@
-require 'onboard/network/routing/constants'
+require 'wiedii/network/routing/constants'
 
-class OnBoard
+class Wiedii
   module Network
     module Routing
-      autoload :Table,  'onboard/network/routing/table'
-      autoload :Route,  'onboard/network/routing/route'
-      autoload :Rule,   'onboard/network/routing/rule'
+      autoload :Table,  'wiedii/network/routing/table'
+      autoload :Route,  'wiedii/network/routing/route'
+      autoload :Rule,   'wiedii/network/routing/rule'
     end
   end
 end

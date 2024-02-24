@@ -1,6 +1,6 @@
-require 'onboard/extensions/hash'
+require 'wiedii/extensions/hash'
 
-class OnBoard
+class Wiedii
   # The include you missed
   module Configurable
 

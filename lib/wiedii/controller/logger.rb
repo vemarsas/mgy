@@ -1,11 +1,11 @@
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     case environment
     when :development
-      OnBoard::LOGGER.level = Logger::DEBUG
+      Wiedii::LOGGER.level = Logger::DEBUG
     when :production
-      OnBoard::LOGGER.level = Logger::INFO
+      Wiedii::LOGGER.level = Logger::INFO
     end
 
   end

@@ -2,9 +2,9 @@
 
 require 'sinatra/base'
 
-require 'onboard/extensions/sinatra/base'
+require 'wiedii/extensions/sinatra/base'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 
@@ -36,7 +36,7 @@ class OnBoard
             layout = false
           elsif instance_variable_defined? :@layout and @layout
             layout = @layout.to_sym
-                # a mobile layout is set in lib/onboard/controller/auth.rb
+                # a mobile layout is set in lib/wiedii/controller/auth.rb
                 # (if appropriate) only for /pub/ pages right now
           else
             layout = :"layout.html" # TODO? mobile layout for admin (non /pub/ ) pages?

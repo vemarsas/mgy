@@ -2,11 +2,11 @@ require 'erb'
 require 'openssl'
 require 'facets/hash'
 
-require 'onboard/extensions/openssl'
-require 'onboard/crypto/ssl'
-require 'onboard/crypto/ssl/multi'
+require 'wiedii/extensions/openssl'
+require 'wiedii/crypto/ssl'
+require 'wiedii/crypto/ssl/multi'
 
-class OnBoard
+class Wiedii
   module Crypto
     module SSL
       class PKI
@@ -38,8 +38,8 @@ class OnBoard
 
         def datadir
           File.join(
-            OnBoard::Crypto::SSL::DATADIR,
-            OnBoard::Crypto::SSL::Multi::SUBDIR,
+            Wiedii::Crypto::SSL::DATADIR,
+            Wiedii::Crypto::SSL::Multi::SUBDIR,
             @name
           )
         end

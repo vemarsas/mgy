@@ -1,17 +1,17 @@
 <%
   require 'i18n_data'
 
-  require 'onboard/system/log'
-  require 'onboard/network/ap'
+  require 'wiedii/system/log'
+  require 'wiedii/network/ap'
 
   ENV['LANG'] =~ /_([A-Z]{2})/
   default_country_code = $1
   selected_country_code = (objects['country_code'] || default_country_code)
 
-  channels24  = OnBoard::Network::AP::CHANNELS[2.4]
-  channels5   = OnBoard::Network::AP::CHANNELS[5]
+  channels24  = Wiedii::Network::AP::CHANNELS[2.4]
+  channels5   = Wiedii::Network::AP::CHANNELS[5]
 
-  log = OnBoard::System::Log.new({'path' => objects['logfile']})
+  log = Wiedii::System::Log.new({'path' => objects['logfile']})
 %>
 
 <h2><%= title %></h2>

@@ -1,7 +1,7 @@
-class OnBoard
+class Wiedii
   module System
 
-    autoload :Command, 'onboard/system/command'
+    autoload :Command, 'wiedii/system/command'
 
     module FS
       class Mount

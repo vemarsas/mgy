@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     case environment

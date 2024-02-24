@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** (<sup>[&loz;](#ndtoc)</sup>)
 
-- [**Margay's IP Routes API v1**](#margays-ip-routes-api-v1)
+- [**Wiedii's IP Routes API v1**](#wiediis-ip-routes-api-v1)
 - [*Preliminary info*](#preliminary-info)
   - [Base URLs](#base-urls)
   - [Authentication](#authentication)
@@ -19,9 +19,9 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# **Margay's IP Routes API v1**
+# **Wiedii's IP Routes API v1**
 
-A ReSTful API to manage [IP routes](https://wiki.linuxfoundation.org/networking/iproute2) in a Margay system.
+A ReSTful API to manage [IP routes](https://wiki.linuxfoundation.org/networking/iproute2) in a Wiedii system.
 
 # *Preliminary info*
 

@@ -2,9 +2,9 @@ require 'fileutils'
 require 'erb'
 require 'openssl'
 require 'facets/hash'
-require 'onboard/crypto/ssl'
+require 'wiedii/crypto/ssl'
 
-class OnBoard
+class Wiedii
   module Crypto
     module SSL
       module Multi

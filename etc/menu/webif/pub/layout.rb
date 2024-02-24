@@ -1,6 +1,6 @@
-require 'onboard/controller/auth'
+require 'wiedii/controller/auth'
 
-class OnBoard
+class Wiedii
   if Controller.public_pages?
     MENU_ROOT.add_path('/webif', {
       :name => 'Web Interface',

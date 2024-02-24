@@ -1,10 +1,10 @@
 require 'sinatra/base'
 
-require 'onboard/network/iptables'
+require 'wiedii/network/iptables'
 
 # TODO TODO TODO: DRY! DRY! DRY!
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get '/network/firewall.:format' do
     redirect '/network/firewall/ipv4.' + params[:format], 10
@@ -13,7 +13,7 @@ class OnBoard::Controller
   get '/network/firewall/ipv:version.:format' do
     not_found unless %w{4 6}.include? params[:version]
 
-    iptablesobj = OnBoard::Network::Iptables.new(
+    iptablesobj = Wiedii::Network::Iptables.new(
       :ip_version => params[:version],
       :tables => %w{filter}
     )
@@ -32,13 +32,13 @@ class OnBoard::Controller
   put '/network/firewall/ipv:version.:format' do
     not_found unless %w{4 6}.include? params[:version]
 
-    msg = OnBoard::Network::Iptables.add_rule_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.add_rule_from_HTTP_request(params) if
       params['add_rule']
-    msg = OnBoard::Network::Iptables.del_rule_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.del_rule_from_HTTP_request(params) if
       params['del_rule']
-    msg = OnBoard::Network::Iptables.move_rule_up_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.move_rule_up_from_HTTP_request(params) if
       params['move_rule_up']
-    msg = OnBoard::Network::Iptables.move_rule_down_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.move_rule_down_from_HTTP_request(params) if
       params['move_rule_down']
     if msg.respond_to? :[]
       # taken from routing.rb
@@ -49,7 +49,7 @@ class OnBoard::Controller
       end
     end
 
-    iptablesobj = OnBoard::Network::Iptables.new(
+    iptablesobj = Wiedii::Network::Iptables.new(
       :ip_version => params[:version],
       :tables => %w{filter}
     )

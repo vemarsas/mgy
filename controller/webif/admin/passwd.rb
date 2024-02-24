@@ -1,8 +1,8 @@
 
-class OnBoard
+class Wiedii
 
-  autoload :Passwd, 'onboard/passwd'
-  autoload :System, 'onboard/system'
+  autoload :Passwd, 'wiedii/passwd'
+  autoload :System, 'wiedii/system'
 
   class Controller
 
@@ -23,15 +23,15 @@ class OnBoard
             params[:newpasswd] != params[:newpasswd2]
         raise BadRequest, "Cannot accept an empty password!"  if
             params[:newpasswd].empty?
-        if not OnBoard::Passwd.check_pass params[:oldpasswd]
+        if not Wiedii::Passwd.check_pass params[:oldpasswd]
           sleep 1
           raise Unauthorized, "Wrong password!"
         end
-        OnBoard::Passwd.change_from_HTTP_request(params)
+        Wiedii::Passwd.change_from_HTTP_request(params)
         msg[:info] = "Web interface password updated!"
         if params[:system] == 'on'
-          root_user     = OnBoard::System::User.root
-          current_user  = OnBoard::System::User.current
+          root_user     = Wiedii::System::User.root
+          current_user  = Wiedii::System::User.current
           root_user.passwd.change_from_HTTP_request(params) unless root_user.passwd.locked?
           current_user.passwd.change_from_HTTP_request(params)
           msg[:info] = "Password updated!"

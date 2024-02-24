@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module Hardware
     class LSPCI
       @@out = ""

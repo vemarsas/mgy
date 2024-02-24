@@ -1,6 +1,6 @@
 autoload :IPAddr, 'ipaddr'
 
-class OnBoard
+class Wiedii
   module Network
     module OpenVPN
       module Convert

@@ -1,14 +1,14 @@
 require 'pp'
 require 'sinatra/base'
 
-require 'onboard/network/interface'
-require 'onboard/network/bridge'
-require 'onboard/extensions/string'
+require 'wiedii/network/interface'
+require 'wiedii/network/bridge'
+require 'wiedii/extensions/string'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get "/network/bridges.:format" do
-    interfaces  = OnBoard::Network::Interface.getAll
+    interfaces  = Wiedii::Network::Interface.getAll
     bridges     = interfaces.select {|i| i.type == 'bridge'}
     format(
       :path     => 'network/bridges',
@@ -19,13 +19,13 @@ class OnBoard::Controller
   end
 
   post "/network/bridges.:format" do
-    msg = OnBoard::Network::Bridge.brctl(params['brctl'])
+    msg = Wiedii::Network::Bridge.brctl(params['brctl'])
     msg[:ok] ? status(201) : status(400)
     headers(
       'Location:' =>
           "/network/bridges/#{params['brctl']['addbr']}.#{params['format']}"
     )
-    interfaces  = OnBoard::Network::Interface.getAll
+    interfaces  = Wiedii::Network::Interface.getAll
     bridges     = interfaces.select {|i| i.type == 'bridge'}
     format(
       :path     => 'network/bridges',
@@ -38,16 +38,16 @@ class OnBoard::Controller
 
   put '/network/bridges.:format' do
     # pp params
-    interfaces = OnBoard::Network::Interface.getAll
+    interfaces = Wiedii::Network::Interface.getAll
     if params['netifs'].respond_to? :each_pair
       params['netifs'].each_pair do |ifname, ifhash| # PUT/[POST] params
         interface = interfaces.detect {|i| i.name == ifname}
         interface.modify_from_HTTP_request(ifhash)
       end
     end
-    OnBoard::Network::Bridge.brctl(params['brctl'])
+    Wiedii::Network::Bridge.brctl(params['brctl'])
     # update info
-    interfaces = OnBoard::Network::Interface.getAll
+    interfaces = Wiedii::Network::Interface.getAll
     bridges = interfaces.select {|i| i.type == 'bridge'}
     # send response
     if [nil, false, [], {}].include? params['netifs']
@@ -69,7 +69,7 @@ class OnBoard::Controller
   end
 
   get "/network/bridges/:brname.:format" do
-    interfaces  = OnBoard::Network::Interface.getAll
+    interfaces  = Wiedii::Network::Interface.getAll
     bridge      = interfaces.find do |netif|
       netif.type == 'bridge' and netif.name == params['brname']
     end
@@ -83,14 +83,14 @@ class OnBoard::Controller
   end
 
   put '/network/bridges/:brname.:format' do
-    interfaces = OnBoard::Network::Interface.getAll
+    interfaces = Wiedii::Network::Interface.getAll
     params['netifs'].each_pair do |ifname, ifhash| # PUT/[POST] params
       interface = interfaces.detect {|i| i.name == ifname}
       interface.modify_from_HTTP_request(ifhash)
     end
-    OnBoard::Network::Bridge.brctl(params['brctl'])
+    Wiedii::Network::Bridge.brctl(params['brctl'])
     # update info
-    interfaces = OnBoard::Network::Interface.getAll
+    interfaces = Wiedii::Network::Interface.getAll
     bridge = interfaces.find do |netif|
       netif.name == params['brname']
     end
@@ -103,10 +103,10 @@ class OnBoard::Controller
   end
 
   delete '/network/bridges/:brname.:format' do
-    bridges = OnBoard::Network::Interface.getAll.select {|i| i.type == 'bridge'}
+    bridges = Wiedii::Network::Interface.getAll.select {|i| i.type == 'bridge'}
     if bridges.detect {|br| br.name == params['brname']}
       redirection = "/network/bridges.#{params['format']}"
-      OnBoard::Network::Bridge.brctl(
+      Wiedii::Network::Bridge.brctl(
         'delbr' => params['brname']
       )
       status(303)                       # HTTP "See Other"

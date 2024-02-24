@@ -1,15 +1,15 @@
 require 'fileutils'
 
-require 'onboard/extensions/openssl'
+require 'wiedii/extensions/openssl'
 
-require 'onboard/crypto/ssl/pki'
+require 'wiedii/crypto/ssl/pki'
 
 
-class OnBoard
+class Wiedii
   class Controller
 
     get '/crypto/ssl/:pkiname/ca/ca.crt' do
-      ssl_pki = OnBoard::Crypto::SSL::PKI.new params[:pkiname]
+      ssl_pki = Wiedii::Crypto::SSL::PKI.new params[:pkiname]
       # decode it, for better human readability (but it's still a valid cert.)
       c = ::OpenSSL::X509::Certificate.new(File.read(ssl_pki.cacertpath))
       content_type "application/x-x509-ca-cert"
@@ -65,7 +65,7 @@ class OnBoard
 =end
 
     get '/crypto/ssl/:pkiname/certs/private/:name.key' do
-      keyfile = "#{OnBoard::Crypto::SSL::PKI.new(params[:pkiname]).keydir}/#{params[:name]}.key"
+      keyfile = "#{Wiedii::Crypto::SSL::PKI.new(params[:pkiname]).keydir}/#{params[:name]}.key"
       if File.exists? keyfile
         content_type "application/x-pem-key"
         attachment "#{params[:name]}.key"
@@ -79,14 +79,14 @@ class OnBoard
     post '/crypto/ssl/:pkiname/certs.:format' do
       target = nil
       msg = {:ok => true}
-      ssl_pki = OnBoard::Crypto::SSL::PKI.new params[:pkiname]
+      ssl_pki = Wiedii::Crypto::SSL::PKI.new params[:pkiname]
       if params['certificate'].respond_to? :[]
         begin
           cert = OpenSSL::X509::Certificate.new(
               params['certificate'][:tempfile].read
           )
           cn = cert.to_h['subject']['CN']
-          raise OnBoard::Crypto::SSL::PKI::ArgumentError,
+          raise Wiedii::Crypto::SSL::PKI::ArgumentError,
               'Cannot find subject\'s Common Name' if not cn
           cn_escaped = cn.gsub('/', Crypto::SSL::PKI::SLASH_FILENAME_ESCAPE)
           FileUtils.mkdir_p ssl_pki.certdir
@@ -155,10 +155,10 @@ class OnBoard
               params['CRL'][:tempfile].read
           )
           cn = crl.issuer.to_h['CN']
-          raise OnBoard::Crypto::SSL::ArgumentError, 'Cannot find subject\'s Common Name' if not cn
+          raise Wiedii::Crypto::SSL::ArgumentError, 'Cannot find subject\'s Common Name' if not cn
           cn_escaped = cn.gsub('/', Crypto::SSL::SLASH_FILENAME_ESCAPE)
           # NOTE: VERY simple filename/CN match :-P
-          raise OnBoard::Crypto::SSL::Conflict, 'Cannot find matching CA Certificate. You should upload it first.' unless File.exists? "#{Crypto::SSL::CERTDIR}/#{cn_escaped}.crt"
+          raise Wiedii::Crypto::SSL::Conflict, 'Cannot find matching CA Certificate. You should upload it first.' unless File.exists? "#{Crypto::SSL::CERTDIR}/#{cn_escaped}.crt"
           target = "#{Crypto::SSL::CERTDIR}/#{cn_escaped}.crl"
           File.open(target, 'w') do |f|
             # Force storage in PEM format, maybe less efficient but
@@ -167,10 +167,10 @@ class OnBoard
             f.write crl.to_text # human readable data
             f.write crl.to_s # the CRL itself between BEGIN-END tags
           end
-        rescue OpenSSL::X509::CRLError, OnBoard::Crypto::SSL::ArgumentError
+        rescue OpenSSL::X509::CRLError, Wiedii::Crypto::SSL::ArgumentError
           status(400)
           msg = {:ok => false, :err => $!}
-        rescue OnBoard::Crypto::SSL::Conflict
+        rescue Wiedii::Crypto::SSL::Conflict
           status(409)
           msg = {:ok => false, :err => $!, :err_html => $!.to_s}
         end

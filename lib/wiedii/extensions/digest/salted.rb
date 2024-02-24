@@ -1,5 +1,5 @@
-require 'onboard/extensions/string'
-require 'onboard/extensions/digest'
+require 'wiedii/extensions/string'
+require 'wiedii/extensions/digest'
 
 module Digest
 

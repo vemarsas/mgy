@@ -12,23 +12,23 @@ require 'find'
 require 'logger'
 require 'etc'
 
-require 'onboard/constants'
-require 'onboard/logger'
-require 'onboard/exceptions'
-require 'onboard/extensions/object'
-require 'onboard/extensions/logger'
-require 'onboard/menu/node'
-require 'onboard/system/command'
-require 'onboard/platform/debian'
-require 'onboard/network/dnsmasq'
+require 'wiedii/constants'
+require 'wiedii/logger'
+require 'wiedii/exceptions'
+require 'wiedii/extensions/object'
+require 'wiedii/extensions/logger'
+require 'wiedii/menu/node'
+require 'wiedii/system/command'
+require 'wiedii/platform/debian'
+require 'wiedii/network/dnsmasq'
 
 
 if Process.uid == 0
-  fail 'OnBoard should not be run as root: use an user who can sudo instead!'
+  fail 'Wiedii should not be run as root: use an user who can sudo instead!'
 end
 
 
-class OnBoard
+class Wiedii
   FileUtils.mkdir_p RWDIR
   FileUtils.chmod 0700, RWDIR # too much sensible data here ;-)
   FileUtils.mkdir_p LOGDIR unless Dir.exists? LOGDIR
@@ -40,7 +40,7 @@ class OnBoard
       $0 == __FILE__ and not
       ENV['ONBOARD_ENVIRONMENT'] =~ /production/i
       # this is required because there is no Sinatra environment until
-      # controller.rb is loaded (where OnBoard::Controller inherits
+      # controller.rb is loaded (where Wiedii::Controller inherits
       # from Sinatra::Base)
 
   PLATFORM = Platform::Debian # TODO? make it configurable? get rid of Platform?
@@ -102,8 +102,8 @@ class OnBoard
     # whether to activate public pages layout configuration page
     # (and relative menu item).
     if web?
-      require 'onboard/controller/helpers'
-      require 'onboard/controller'
+      require 'wiedii/controller/helpers'
+      require 'wiedii/controller'
 
       # modular menu
       find_n_load ROOTDIR + '/etc/menu/'
@@ -167,14 +167,14 @@ class OnBoard
 
 end
 
-OnBoard.prepare
+Wiedii.prepare
 
 if ARGV.include? '--restore-dns'
-  OnBoard.restore_dns
+  Wiedii.restore_dns
 end
 
-if OnBoard.web?
+if Wiedii.web?
   if $0 == __FILE__
-    OnBoard::Controller.run! :bind => '0.0.0.0'
+    Wiedii::Controller.run! :bind => '0.0.0.0'
   end
 end

@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module System
     class Process
 
@@ -15,7 +15,7 @@ class OnBoard
         # method_missing ?
         #
         # Do not break compat with code that believes they are calling Ruby core
-        # instead of OnBoard::System::Process .
+        # instead of Wiedii::System::Process .
         def uid
           ::Process.uid
         end

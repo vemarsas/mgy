@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module Hardware
     module Serial
 
@@ -41,5 +41,5 @@ end
 
 if $0 == __FILE__
   require 'pp'
-  pp OnBoard::Hardware::Serial.all
+  pp Wiedii::Hardware::Serial.all
 end

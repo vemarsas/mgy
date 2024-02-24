@@ -1,13 +1,13 @@
 require 'pp'
 require 'sinatra/base'
 
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get '/network/interfaces.:format' do
-    objects = OnBoard::Network::Interface.getAll.sort_by(
-      &OnBoard::Network::Interface::PREFERRED_ORDER
+    objects = Wiedii::Network::Interface.getAll.sort_by(
+      &Wiedii::Network::Interface::PREFERRED_ORDER
     )
     format(
       :path     => '/network/interfaces',
@@ -22,7 +22,7 @@ class OnBoard::Controller
       :path => '/network/interfaces',
       :format => params[:format],
       :title    => "Network interfaces: #{params[:ifname]}",
-      :objects  => OnBoard::Network::Interface.getAll.select do |iface|
+      :objects  => Wiedii::Network::Interface.getAll.select do |iface|
         iface.name == params[:ifname] or iface.displayname == params[:ifname]
       end
     )
@@ -30,7 +30,7 @@ class OnBoard::Controller
 
   # An example params is found in doc/
   put '/network/interfaces.:format' do
-    current_interfaces = OnBoard::Network::Interface.getAll
+    current_interfaces = Wiedii::Network::Interface.getAll
 
     params['netifs'].each_pair do |ifname, ifhash|
       interface = current_interfaces.detect {|i| i.name == ifname}
@@ -39,8 +39,8 @@ class OnBoard::Controller
       interface.modify_from_HTTP_request(ifhash, :safe_updown => (params[:format] != 'html'))
     end
 
-    updated_objects = OnBoard::Network::Interface.getAll.sort_by(
-        &OnBoard::Network::Interface::PREFERRED_ORDER
+    updated_objects = Wiedii::Network::Interface.getAll.sort_by(
+        &Wiedii::Network::Interface::PREFERRED_ORDER
     )
 
     format(
@@ -53,7 +53,7 @@ class OnBoard::Controller
 
   put '/network/interfaces/:ifname.:format' do
     ifname = params[:ifname]
-    current_interface = OnBoard::Network::Interface.getAll.detect do |iface|
+    current_interface = Wiedii::Network::Interface.getAll.detect do |iface|
       iface.name == ifname
     end
 
@@ -66,7 +66,7 @@ class OnBoard::Controller
       :path     => '/network/interfaces',
       :format   => params[:format],
       :title    => "Network interfaces: #{ifname}",
-      :objects  => OnBoard::Network::Interface.getAll.select do |iface|
+      :objects  => Wiedii::Network::Interface.getAll.select do |iface|
         iface.name == ifname
       end
     )

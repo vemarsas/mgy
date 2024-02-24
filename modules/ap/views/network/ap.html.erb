@@ -1,8 +1,8 @@
 <%
-  require 'onboard/network/interface'
-  require 'onboard/network/ap'
+  require 'wiedii/network/interface'
+  require 'wiedii/network/ap'
 
-  wlifs = OnBoard::Network::Interface.getAll.select{|i| i.type == 'wi-fi'}
+  wlifs = Wiedii::Network::Interface.getAll.select{|i| i.type == 'wi-fi'}
 %>
 
 <h2>Wireless Access Point(s)</h2>
@@ -21,7 +21,7 @@
     <a href="ap/<%= i.name %>.html"><%= i.name %></a>
   </td>
   <td style="text-align: center">
-    <%= yes_no_icon OnBoard::Network::AP.running?(i.name), :print_no %>
+    <%= yes_no_icon Wiedii::Network::AP.running?(i.name), :print_no %>
   </td>
 </tr>
 <% end %>

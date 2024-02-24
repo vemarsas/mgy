@@ -1,16 +1,16 @@
 require 'json'
 
-require 'onboard/system/command'
-require 'onboard/network/interface'
+require 'wiedii/system/command'
+require 'wiedii/network/interface'
 
-class OnBoard::Network::Bridge < OnBoard::Network::Interface
+class Wiedii::Network::Bridge < Wiedii::Network::Interface
 
   class << self
 
-    include OnBoard::System
+    include Wiedii::System
 
     def get_all
-      all = OnBoard::Network::Interface.get_all.select{|x| x.type == 'bridge'}
+      all = Wiedii::Network::Interface.get_all.select{|x| x.type == 'bridge'}
       all.each do |br|
         br.stp = br.stp?
       end
@@ -148,7 +148,7 @@ class OnBoard::Network::Bridge < OnBoard::Network::Interface
   private
 
   def member_netifs
-    OnBoard::Network::Interface.all_layer2.select do |netif|
+    Wiedii::Network::Interface.all_layer2.select do |netif|
       netif.bridged_to == @name
     end
   end

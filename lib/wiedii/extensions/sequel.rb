@@ -1,6 +1,6 @@
 require 'sequel'
 
-require 'onboard/extensions/sequel/dataset'
+require 'wiedii/extensions/sequel/dataset'
 
 module Sequel
 

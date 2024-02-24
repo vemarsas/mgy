@@ -1,11 +1,11 @@
 require 'etc'
 require 'open3'
 
-require 'onboard/exceptions'
-require 'onboard/system/user/passwd/status'
-require 'onboard/system/fs'
+require 'wiedii/exceptions'
+require 'wiedii/system/user/passwd/status'
+require 'wiedii/system/fs'
 
-class OnBoard
+class Wiedii
   module System
     class User
       class Passwd
@@ -32,7 +32,7 @@ class OnBoard
         # TODO: change_from_HTTP_request() is horrible, turn this into
         # change(newpasswd) and extract from HTTP params within the
         # Sinatra Controller. This should be done for many modules and classes
-        # throughout the OnBoard source tree...
+        # throughout the Wiedii source tree...
         #
         def change_from_HTTP_request(params)
           was_readonly = System::FS.root.readonly?

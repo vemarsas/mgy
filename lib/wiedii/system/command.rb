@@ -1,7 +1,7 @@
 require 'logger'
 require 'open3'
 
-class OnBoard
+class Wiedii
 
   LOGGER ||= Logger.new(STDERR)
 

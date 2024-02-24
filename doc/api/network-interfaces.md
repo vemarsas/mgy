@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** (<sup>[&loz;](#ndtoc)</sup>)
 
-- [**Margay's Network Interface API v1**](#margays-network-interface-api-v1)
+- [**Wiedii's Network Interface API v1**](#wiediis-network-interface-api-v1)
 - [*Preliminary info*](#preliminary-info)
   - [Base URLs](#base-urls)
   - [Authentication](#authentication)
@@ -16,9 +16,9 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# **Margay's Network Interface API v1**
+# **Wiedii's Network Interface API v1**
 
-A ReSTful API to manage network interfaces in a Margay system.
+A ReSTful API to manage network interfaces in a Wiedii system.
 
 # *Preliminary info*
 

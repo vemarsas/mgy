@@ -8,17 +8,17 @@ require 'tilt/erb'
 require 'rack'
 require 'rack/contrib'
 
-require 'onboard/extensions/sinatra/base'
+require 'wiedii/extensions/sinatra/base'
 
-require 'onboard/controller/auth'
-require 'onboard/controller/error'
-require 'onboard/controller/format'
-require 'onboard/controller/gui'
-require 'onboard/controller/locale'
-require 'onboard/controller/logger'
-require 'onboard/controller/thread'
+require 'wiedii/controller/auth'
+require 'wiedii/controller/error'
+require 'wiedii/controller/format'
+require 'wiedii/controller/gui'
+require 'wiedii/controller/locale'
+require 'wiedii/controller/logger'
+require 'wiedii/controller/thread'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     attr_accessor :msg
@@ -38,14 +38,14 @@ class OnBoard
       set :show_exceptions, false
     end
 
-    set :root, OnBoard::ROOTDIR
+    set :root, Wiedii::ROOTDIR
 
     # Sinatra::Base#static! has been overwritten to allow multiple path
     set :public_folder,
-        Dir.glob(OnBoard::ROOTDIR + '/public')            +
-        Dir.glob(OnBoard::ROOTDIR + '/modules/*/public')
+        Dir.glob(Wiedii::ROOTDIR + '/public')            +
+        Dir.glob(Wiedii::ROOTDIR + '/modules/*/public')
 
-    set :views, OnBoard::ROOTDIR + '/views'
+    set :views, Wiedii::ROOTDIR + '/views'
 
     not_found do
       @override_not_found ||= false
@@ -58,7 +58,7 @@ class OnBoard
     end
 
     # modular controller
-    OnBoard.find_n_load OnBoard::ROOTDIR + '/controller/'
+    Wiedii.find_n_load Wiedii::ROOTDIR + '/controller/'
 
   end
 

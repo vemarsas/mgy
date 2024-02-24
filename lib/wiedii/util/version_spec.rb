@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift File.join File.dirname(__FILE__), '../..'
 
-require 'onboard/util/version'
+require 'wiedii/util/version'
 
-include OnBoard::Util
+include Wiedii::Util
 
 describe Version, '#<=>' do
   it %q{should be Version.new('1.2.3') < '1.3'} do

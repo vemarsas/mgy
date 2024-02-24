@@ -1,6 +1,6 @@
-# **Margay's iptables/DNAT API v1**
+# **Wiedii's iptables/DNAT API v1**
 
-JSON API to manage DNAT in a Margay system.
+JSON API to manage DNAT in a Wiedii system.
 
 # *Preliminary info*
 

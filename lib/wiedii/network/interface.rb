@@ -3,16 +3,16 @@ require 'yaml'
 require 'json'
 require 'fileutils'
 
-require 'onboard/network/interface/mac'
-require 'onboard/network/interface/ip'
-require 'onboard/network/bridge'
-require 'onboard/hardware/lspci'
-require 'onboard/hardware/lsusb'
-require 'onboard/hardware/sdio'
-require 'onboard/extensions/array.rb'
-require 'onboard/util'
+require 'wiedii/network/interface/mac'
+require 'wiedii/network/interface/ip'
+require 'wiedii/network/bridge'
+require 'wiedii/hardware/lspci'
+require 'wiedii/hardware/lsusb'
+require 'wiedii/hardware/sdio'
+require 'wiedii/extensions/array.rb'
+require 'wiedii/util'
 
-class OnBoard
+class Wiedii
   module Network
     class Interface
 
@@ -74,8 +74,8 @@ class OnBoard
 
         # Also, handle the case of possible new types:
         order_by_type = 9999
-        if OnBoard::Network::Interface::TYPES[iface.type]
-         order_by_type =  OnBoard::Network::Interface::TYPES[iface.type][:preferred_order]
+        if Wiedii::Network::Interface::TYPES[iface.type]
+         order_by_type =  Wiedii::Network::Interface::TYPES[iface.type][:preferred_order]
         end
 
         return [
@@ -88,7 +88,7 @@ class OnBoard
 
       class << self
 
-        include OnBoard::Util
+        include Wiedii::Util
 
         def getAll
           @@all_layer2 = getAll_layer2()
@@ -273,7 +273,7 @@ class OnBoard
           end
           ary += bridges.map do |x|
             # create Bridge objects using generic Interface objects as templates
-            br = OnBoard::Network::Bridge.new(x)
+            br = Wiedii::Network::Bridge.new(x)
             br.stp = br.stp?  # this should be in _layer2 but still...
             # if one of the children interfaces is configured via DHCP, then
             # consider the bridge itself configured via DHCP and grab all the info
@@ -331,10 +331,10 @@ class OnBoard
 
         def save
           self_getAll = self.getAll
-          File.open(OnBoard::CONFDIR + '/network/interfaces.yml', 'w') do |f|
+          File.open(Wiedii::CONFDIR + '/network/interfaces.yml', 'w') do |f|
             YAML.dump self_getAll, f
           end
-          #File.open(OnBoard::CONFDIR + '/network/interfaces.dbg.yaml', 'w') do |f|
+          #File.open(Wiedii::CONFDIR + '/network/interfaces.dbg.yaml', 'w') do |f|
           #  YAML.dump self_getAll, f
           #end
         end
@@ -347,7 +347,7 @@ class OnBoard
           else
 	          begin
               File.open(
-                  OnBoard::CONFDIR + '/network/interfaces.yml', 'r') do |f|
+                  Wiedii::CONFDIR + '/network/interfaces.yml', 'r') do |f|
                 saved_ifaces =  YAML.load f
               end
             rescue # invalid or non-existent dat file? skip!
@@ -469,7 +469,7 @@ class OnBoard
       attr_reader :n, :displayname, :name, :vlan_info, :misc, :mtu, :qdisc, :active, :state, :mac, :ip, :bus, :vendor, :model, :desc, :pciid, :preferred_metric
       attr_accessor :ipassign, :type, :wifi_properties, :vlan_info
 
-      include OnBoard::System
+      include Wiedii::System
 
       def initialize(hash)
         %w{n displayname name misc mtu qdisc active state type mac ip ipassign}.each do |property|
@@ -488,7 +488,7 @@ class OnBoard
           @bus = $1
           if @bus == 'pci'
             set_pciid_from_sysfs
-            lspci_by_id = OnBoard::Hardware::LSPCI.by_id
+            lspci_by_id = Wiedii::Hardware::LSPCI.by_id
             if @pciid
               @desc = lspci_by_id[@pciid][:desc]
               @vendor =lspci_by_id[@pciid][:vendor]
@@ -566,7 +566,7 @@ class OnBoard
 
       def set_preferred_metric(_preferred_metric)
         # TODO: use tmpfs?
-        metrics_dir = OnBoard::CONFDIR + '/network/interfaces/preferred_metrics/new'
+        metrics_dir = Wiedii::CONFDIR + '/network/interfaces/preferred_metrics/new'
         metric_file = metrics_dir + '/' + @name
         @preferred_metric = _preferred_metric
         FileUtils.mkdir_p metrics_dir
@@ -577,7 +577,7 @@ class OnBoard
 
       def get_preferred_metric!
         # gets from file but set in the object!
-        metrics_dir = OnBoard::CONFDIR + '/network/interfaces/preferred_metrics/new'
+        metrics_dir = Wiedii::CONFDIR + '/network/interfaces/preferred_metrics/new'
         metric_file = metrics_dir + '/' + @name
         if File.exists? metric_file
           File.open(metric_file, 'r') do |f|

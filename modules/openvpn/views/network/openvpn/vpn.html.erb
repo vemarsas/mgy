@@ -1,10 +1,10 @@
 <%
-  require 'onboard/extensions/hash'
-  require 'onboard/extensions/ipaddr'
-  require 'onboard/crypto/ssl'
-  require 'onboard/network/bridge'
+  require 'wiedii/extensions/hash'
+  require 'wiedii/extensions/ipaddr'
+  require 'wiedii/crypto/ssl'
+  require 'wiedii/network/bridge'
 
-  all_pki_names = OnBoard::Crypto::SSL::Multi.get_pki_names - ['default']
+  all_pki_names = Wiedii::Crypto::SSL::Multi.get_pki_names - ['default']
   all_pki_names = ['default'] + all_pki_names
 
   multi_pkis = (all_pki_names.size  > 1)
@@ -12,10 +12,10 @@
   params['pki'] ||= 'default'
 
   ssl = {}
-  pki = OnBoard::Crypto::SSL::PKI.new(params['pki'])
+  pki = Wiedii::Crypto::SSL::PKI.new(params['pki'])
   ssl['certs'] = pki.getAllCerts :with_ca => true
 
-  bridges   = OnBoard::Network::Bridge.get_all
+  bridges   = Wiedii::Network::Bridge.get_all
 %>
 
 <style type="text/css">

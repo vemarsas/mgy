@@ -138,7 +138,7 @@ possible as a minor version number. It's kinda semantic versioning :)
 2019.04
 
 * Support FreeRADIUS 3
-* Provisioning: Vagrant and bare-Debian (see also https://github.com/vemarsas/margay)
+* Provisioning: Vagrant and bare-Debian (see also https://github.com/vemarsas/wiedii)
 * JSON/ReST: allowing POST / PUT in JSON format too (instead of form-encoded only).
 
 2015.07
@@ -266,9 +266,9 @@ possible as a minor version number. It's kinda semantic versioning :)
 		recover from a disastrous ``local'' table removal
 
 * Init:
-	* ensure that /etc/init.d/onboard stop has been completed before halting the machine
+	* ensure that /etc/init.d/wiedii stop has been completed before halting the machine
 
-* Design: OnBoard::Error now inherits from StandardError,
+* Design: Wiedii::Error now inherits from StandardError,
 	so a default rescue would catch it
 
 * DansGuardian: move maxuploadsize to filter group
@@ -402,7 +402,7 @@ possible as a minor version number. It's kinda semantic versioning :)
 2013.02
 
 * Unix system/login password
-	* may be changed via the web interface (onboard and root)
+	* may be changed via the web interface (wiedii and root)
 	* handle ro/rw filesystem (via System::FS new module)
 	* do not touch locked root login (sudo-only setups)
 
@@ -562,7 +562,7 @@ openvpn --local
 		* strongly founded on CoovaChilli features, namely JSON interface
 	* chilli module
 		* no wpa, statip and mac auth, just web hotspot login
-	* requires a RADIUS server (not managed by OnBoard yet)
+	* requires a RADIUS server (not managed by Wiedii yet)
 
 2010.10.03
 

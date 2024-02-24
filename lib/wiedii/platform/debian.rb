@@ -1,6 +1,6 @@
 require 'fileutils'
 
-class OnBoard
+class Wiedii
   ROOTDIR ||= File.expand_path(
     File.join File.dirname(__FILE__), '../../..'
   )
@@ -14,29 +14,29 @@ class OnBoard
       # TAP bridges.
       #
       DNSMASQ_INIT_SCRIPT =
-          "#{::OnBoard::ROOTDIR}/etc/scripts/platform/debian/init.d/dnsmasq"
+          "#{::Wiedii::ROOTDIR}/etc/scripts/platform/debian/init.d/dnsmasq"
 
       def self.restart_dnsmasq(confdir)
-        msg = OnBoard::System::Command.run(
+        msg = Wiedii::System::Command.run(
             "#{DNSMASQ_INIT_SCRIPT} stop", :sudo, :try)
         if not msg[:ok]
-          msg = OnBoard::System::Command.run(
+          msg = Wiedii::System::Command.run(
               'killall dnsmasq', :sudo, :try)
         elsif not msg[:ok]
-          msg = OnBoard::System::Command.run(
+          msg = Wiedii::System::Command.run(
             'killall -9 dnsmasq', :sudo, :try)
         end
         # 'new' subdirectory is always the current config dir
         # do not copy new/*.conf to parent directory if you don't want
         # persistence
-        msg = OnBoard::System::Command.run(
+        msg = Wiedii::System::Command.run(
             'DNSMASQ_OPTS="--conf-dir=' <<
             confdir << '" ' <<
             "#{DNSMASQ_INIT_SCRIPT} start",
             :sudo, :try
         )
         if not msg[:ok]
-          msg = OnBoard::System::Command.run(
+          msg = Wiedii::System::Command.run(
               "dnsmasq --conf-dir=#{confdir}",
               :sudo
           )

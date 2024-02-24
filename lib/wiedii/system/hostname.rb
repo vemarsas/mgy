@@ -1,9 +1,9 @@
-class OnBoard
+class Wiedii
   module System
     class Hostname # module? shall we have Hostname instances?
 
-      CONFFILE_HOST   = File.join OnBoard::CONFDIR, 'hostname'
-      CONFFILE_DOMAIN = File.join OnBoard::CONFDIR, 'domainname'
+      CONFFILE_HOST   = File.join Wiedii::CONFDIR, 'hostname'
+      CONFFILE_DOMAIN = File.join Wiedii::CONFDIR, 'domainname'
 
       class NoDomainName  < RuntimeError; end
       class NoHostName    < RuntimeError; end

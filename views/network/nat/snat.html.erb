@@ -5,14 +5,14 @@
 <%
   require 'pp'
 
-  require 'onboard/network/interface'
-  require 'onboard/network/routing/table'
+  require 'wiedii/network/interface'
+  require 'wiedii/network/routing/table'
 
-  all_interfaces = OnBoard::Network::Interface.getAll_layer3
+  all_interfaces = Wiedii::Network::Interface.getAll_layer3
   # all_interfaces.delete_if {|x| x.type == "loopback"}
   interface_names = all_interfaces.map {|x| x.name}
 
-  rt_table = OnBoard::Network::Routing::Table.getCurrent()
+  rt_table = Wiedii::Network::Routing::Table.getCurrent()
 
   defaultroute_ifname = nil
 

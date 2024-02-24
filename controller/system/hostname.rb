@@ -1,6 +1,6 @@
-require 'onboard/system/hostname'
+require 'wiedii/system/hostname'
 
-class OnBoard
+class Wiedii
   class Controller
 
     get "/system/hostname.:format" do

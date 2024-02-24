@@ -3,9 +3,9 @@ $LOAD_PATH.unshift File.join File.dirname(__FILE__), '../..'
 
 require 'pp'
 
-require 'onboard/hardware/lsusb'
+require 'wiedii/hardware/lsusb'
 
-include OnBoard::Hardware
+include Wiedii::Hardware
 
 LSUSB.all.each do |dev|
   pp dev

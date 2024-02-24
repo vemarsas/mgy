@@ -1,10 +1,10 @@
 require 'etc'
 
-class OnBoard
+class Wiedii
   module System
     class User
 
-      autoload :Passwd, 'onboard/system/user/passwd'
+      autoload :Passwd, 'wiedii/system/user/passwd'
 
       class << self
         def current

@@ -1,11 +1,11 @@
 # encoding: UTF-8
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
     helpers do
 
       def main_menu
-        OnBoard::MENU_ROOT.to_html_ul do |node, output|
+        Wiedii::MENU_ROOT.to_html_ul do |node, output|
           if node.content
 
             # if a "children rule" is not specified, create it (if possible)

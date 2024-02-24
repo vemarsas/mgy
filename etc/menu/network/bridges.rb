@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/bridges', {
     :href => '/network/bridges',
     :children => /\/network\/bridges\/.+/,

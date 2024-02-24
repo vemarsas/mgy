@@ -2,7 +2,7 @@
 # message in html view, and something useful for JSON/YAML clients (custom
 # HTTP headers might be a way).
 
-class OnBoard
+class Wiedii
 
   # This is the case where multiple inheritance
   # would've been proven useful...

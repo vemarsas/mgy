@@ -1,9 +1,9 @@
 <% # encoding: utf-8
-  require 'onboard/crypto/easy-rsa'
-  require 'onboard/crypto/ssl'
+  require 'wiedii/crypto/easy-rsa'
+  require 'wiedii/crypto/ssl'
 
   pkinames = objects - ['default'] + ['default']  # move default at end
-  pkis = pkinames.map{|pkiname| OnBoard::Crypto::SSL::PKI.new(pkiname)}
+  pkis = pkinames.map{|pkiname| Wiedii::Crypto::SSL::PKI.new(pkiname)}
 %>
 
 <h2><%= title %></h2>

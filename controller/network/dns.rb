@@ -1,11 +1,11 @@
 require 'sinatra/base'
 
-require 'onboard/network/dnsmasq'
+require 'wiedii/network/dnsmasq'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get "/network/dns.:format" do
-    dnsmasq = OnBoard::Network::Dnsmasq.new
+    dnsmasq = Wiedii::Network::Dnsmasq.new
     dnsmasq.parse_dns_conf
     dnsmasq.parse_dns_cmdline
     format(
@@ -17,16 +17,16 @@ class OnBoard::Controller
   end
 
   put "/network/dns.:format" do
-    dnsmasq = OnBoard::Network::Dnsmasq.new
+    dnsmasq = Wiedii::Network::Dnsmasq.new
     msg = dnsmasq.write_dns_conf_from_HTTP_request(params)
     if msg[:err]
       status 409
     else
-      OnBoard::PLATFORM::restart_dnsmasq(OnBoard::Network::Dnsmasq::CONFDIR + '/new')
+      Wiedii::PLATFORM::restart_dnsmasq(Wiedii::Network::Dnsmasq::CONFDIR + '/new')
     end
 
     # read updated conf
-    dnsmasq = OnBoard::Network::Dnsmasq.new
+    dnsmasq = Wiedii::Network::Dnsmasq.new
     dnsmasq.parse_dns_conf
     dnsmasq.parse_dns_cmdline
     format(

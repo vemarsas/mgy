@@ -1,1 +1,1 @@
-# See {}/lib/onboard/controller/format.rb
+# See {}/lib/wiedii/controller/format.rb

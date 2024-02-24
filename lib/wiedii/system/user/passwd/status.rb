@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module System
     class User
       class Passwd

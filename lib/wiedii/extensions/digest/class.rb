@@ -1,4 +1,4 @@
-require 'onboard/extensions/digest/instance'
+require 'wiedii/extensions/digest/instance'
 
 module Digest
   class Class

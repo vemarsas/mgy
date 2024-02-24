@@ -1,5 +1,5 @@
-require 'onboard/network/openvpn/vpn'
+require 'wiedii/network/openvpn/vpn'
 
-OnBoard::Network::OpenVPN::VPN.save
+Wiedii::Network::OpenVPN::VPN.save
 
 

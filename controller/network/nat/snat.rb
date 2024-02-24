@@ -1,15 +1,15 @@
 require 'sinatra/base'
 
-require 'onboard/network/iptables'
+require 'wiedii/network/iptables'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get '/network/nat/masquerade.:format' do
     redirect "/network/nat/snat.#{params[:format]}"
   end
 
   get '/network/nat/snat.:format' do
-    iptablesobj = OnBoard::Network::Iptables.new(
+    iptablesobj = Wiedii::Network::Iptables.new(
       :ip_version => '4', # no IPv6 NAT implemented (probably useless...)
       :tables => %w{nat}
     )
@@ -28,13 +28,13 @@ class OnBoard::Controller
     params['version'] = '4'   # IPv4
     params['table']   = 'nat'
 
-    msg = OnBoard::Network::Iptables.add_rule_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.add_rule_from_HTTP_request(params) if
       params['add_rule']
-    msg = OnBoard::Network::Iptables.del_rule_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.del_rule_from_HTTP_request(params) if
       params['del_rule']
-    msg = OnBoard::Network::Iptables.move_rule_up_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.move_rule_up_from_HTTP_request(params) if
       params['move_rule_up']
-    msg = OnBoard::Network::Iptables.move_rule_down_from_HTTP_request(params) if
+    msg = Wiedii::Network::Iptables.move_rule_down_from_HTTP_request(params) if
       params['move_rule_down']
     if msg.respond_to? :[]
       # taken from routing.rb
@@ -44,7 +44,7 @@ class OnBoard::Controller
       end
     end
 
-    iptablesobj = OnBoard::Network::Iptables.new(
+    iptablesobj = Wiedii::Network::Iptables.new(
       :ip_version => params[:version],
       :tables => %w{nat}
     )

@@ -1,8 +1,8 @@
 <%
-  require 'onboard/network/interface'
+  require 'wiedii/network/interface'
 
-	all_interfaces    ||= OnBoard::Network::Interface.getAll.sort_by &(
-		OnBoard::Network::Interface::PREFERRED_ORDER
+	all_interfaces    ||= Wiedii::Network::Interface.getAll.sort_by &(
+		Wiedii::Network::Interface::PREFERRED_ORDER
 	)
   print_bridge_info ||= false
   selected_if       ||= lambda {|x| false} # as in <option selected ... >

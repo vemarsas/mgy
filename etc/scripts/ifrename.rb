@@ -31,7 +31,7 @@ $LOAD_PATH.unshift(
 
 require 'optparse'
 
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
 options = {}
 OptionParser.new do |opts|
@@ -60,7 +60,7 @@ type              = options[:type] || 'ether'
 reverse           = options[:reverse]
 #udev_kernel_name  = options[:udev_kernel_name]
 
-ordered_interfaces = OnBoard::Network::Interface.getAll.select do |iface|
+ordered_interfaces = Wiedii::Network::Interface.getAll.select do |iface|
   type == 'any' or type == iface.type
 end.sort do |x, y|
   reverse ?

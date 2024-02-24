@@ -1,6 +1,6 @@
 require 'sinatra/r18n'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     # Extensions must be explicitly registered in modular style apps.

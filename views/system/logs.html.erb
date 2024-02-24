@@ -15,7 +15,7 @@
     <% end %>
   <% end %>
 
-<% elsif objects.is_a? OnBoard::System::Log %>
+<% elsif objects.is_a? Wiedii::System::Log %>
   <% log = objects %>
   <h2>Log: <%= log.data['meta']['path'] %></h2>
   <%=

@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/openvpn', {
     :href => '/network/openvpn',
     :children => %r{^/network/openvpn/.*},

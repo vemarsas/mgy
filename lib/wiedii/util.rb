@@ -1,8 +1,8 @@
 require 'time'
 
-class OnBoard
+class Wiedii
   module Util
-    autoload :Version, 'onboard/util/version'
+    autoload :Version, 'wiedii/util/version'
 
     def wait_for(opts={}, &blk)
       defaults = {

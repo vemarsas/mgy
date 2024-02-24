@@ -6,7 +6,7 @@
 %>
 <html>
   <head>
-    <title><%= OnBoard::LONGNAME %><%= " - #{title}" if title %></title>
+    <title><%= Wiedii::LONGNAME %><%= " - #{title}" if title %></title>
 
     <link rel="stylesheet" href="/css/default.css"/>
     <link rel="stylesheet" href="/css/custom.css"/>
@@ -29,7 +29,7 @@
   </head>
   <body onload="reset_menus();">
     <div id="sidebar">
-      <div id="onboard-menu">
+      <div id="wiedii-menu">
         <%
           # Work-around a subtle bug: the first time you call the menu,
           # item highlighting does not work properly: so, allow data

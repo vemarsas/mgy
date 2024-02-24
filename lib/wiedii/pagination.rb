@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   module Pagination
 
     DEFAULTS = {

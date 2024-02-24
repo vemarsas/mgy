@@ -1,12 +1,12 @@
 require 'fileutils'
 require 'logger'
 
-require 'onboard/constants'
+require 'wiedii/constants'
 
-class OnBoard
+class Wiedii
 
   LOGDIR = File.join RWDIR, '/var/log'
-  LOGFILE_BASENAME    = 'onboard.log'
+  LOGFILE_BASENAME    = 'wiedii.log'
   LOGFILE_PATH        = File.join LOGDIR, LOGFILE_BASENAME
   LOGFILE             = LOGFILE_PATH
 

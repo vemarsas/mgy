@@ -1,19 +1,19 @@
 require 'fileutils'
 
-require 'onboard/util'
-require 'onboard/platform/debian'
-require 'onboard/system/hostname'
-require 'onboard/network/interface/ip'
+require 'wiedii/util'
+require 'wiedii/platform/debian'
+require 'wiedii/system/hostname'
+require 'wiedii/network/interface/ip'
 
-class OnBoard
+class Wiedii
   module Network
     class Dnsmasq
 
-      include OnBoard::Util
+      include Wiedii::Util
 
-      CONFDIR = OnBoard::CONFDIR + '/network/dnsmasq'
+      CONFDIR = Wiedii::CONFDIR + '/network/dnsmasq'
       CONFDIR_CURRENT = "#{CONFDIR}/new"
-      DEFAULTS_CONFDIR = OnBoard::ROOTDIR + '/etc/defaults/network/dnsmasq'
+      DEFAULTS_CONFDIR = Wiedii::ROOTDIR + '/etc/defaults/network/dnsmasq'
       CONFFILES_GLOB = '*.conf'
 
       # Search for "--host-record" in
@@ -32,7 +32,7 @@ class OnBoard
       end
 
       def self.restore
-        OnBoard::System::Command.run "mkdir -p #{CONFDIR_CURRENT}"
+        Wiedii::System::Command.run "mkdir -p #{CONFDIR_CURRENT}"
         Dir.glob "#{DEFAULTS_CONFDIR}/#{CONFFILES_GLOB}" do |path|
           basename = File.basename path
           unless File.exists? "#{CONFDIR}/#{basename}"
@@ -40,7 +40,7 @@ class OnBoard
           end
           FileUtils.copy "#{CONFDIR}/#{basename}", CONFDIR_CURRENT
         end
-        OnBoard::System::Hostname.be_resolved( :no_restart )
+        Wiedii::System::Hostname.be_resolved( :no_restart )
         self.restart
       end
 
@@ -64,7 +64,7 @@ class OnBoard
           end
         end
         if need_restart
-          OnBoard::PLATFORM::restart_dnsmasq  "#{CONFDIR_CURRENT}"
+          Wiedii::PLATFORM::restart_dnsmasq  "#{CONFDIR_CURRENT}"
         end
       end
 
@@ -74,7 +74,7 @@ class OnBoard
 
         %w{ipstart ipend}.each do |what|
           return {:ignore => true} if dhcp_range_params[what] =~ /add\s*new/i
-          if not OnBoard::Network::Interface::IP.valid_address?(dhcp_range_params[what])
+          if not Wiedii::Network::Interface::IP.valid_address?(dhcp_range_params[what])
             return {
               :ok => false,
               :err => "Invalid IP address: \"#{dhcp_range_params[what]}\""
@@ -91,14 +91,14 @@ class OnBoard
             dhcp_host_params['mac']     =~ /add\s*new/i and
             dhcp_host_params['ip']      =~ /add\s*new/i
 
-       if not OnBoard::Network::Interface::MAC.valid_address?(dhcp_host_params['mac'])
+       if not Wiedii::Network::Interface::MAC.valid_address?(dhcp_host_params['mac'])
           return {
             :ok => false,
             :err => "Invalid MAC address: \"#{dhcp_host_params['mac']}\""
           }
         end
 
-        if not OnBoard::Network::Interface::IP.valid_address?(dhcp_host_params['ip'])
+        if not Wiedii::Network::Interface::IP.valid_address?(dhcp_host_params['ip'])
           return {
             :ok => false,
             :err => "Invalid IP address: #{dhcp_host_params['ip']}"
@@ -109,7 +109,7 @@ class OnBoard
       end
 
       def self.restart
-        OnBoard::PLATFORM::restart_dnsmasq("#{CONFDIR_CURRENT}")
+        Wiedii::PLATFORM::restart_dnsmasq("#{CONFDIR_CURRENT}")
       end
 
       attr_reader :data
@@ -311,7 +311,7 @@ class OnBoard
               explicit_port = true
             end
             next if not \
-                OnBoard::Network::Interface::IP::valid_address? ns['ip']
+                Wiedii::Network::Interface::IP::valid_address? ns['ip']
             if explicit_port
               str << "server=#{ns['ip']}##{ns['port']} # #{ns['comment']}\n"
             else
@@ -383,7 +383,7 @@ class OnBoard
           name = domain['name']
           next unless name =~ /^[\w\-\.]+$/
           ip    = domain['ip']
-          valid_ip = OnBoard::Network::Interface::IP::valid_address? ip
+          valid_ip = Wiedii::Network::Interface::IP::valid_address? ip
           if blocked.include? name
             lines |= ["address=/#{name}/0.0.0.0"]
             lines |= ["address=/#{name}/::"]

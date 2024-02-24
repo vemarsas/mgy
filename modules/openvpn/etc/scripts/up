@@ -24,7 +24,7 @@
 #
 # EXAMPLE:
 #
-# RUBYLIB=/home/onboard/onboard/lib NETWORK_INTERFACES_DATFILE=/home/onboard/onboard/etc/config/network/interfaces.yml ./up ovpn_tap0
+# RUBYLIB=/home/wiedii/wiedii/lib NETWORK_INTERFACES_DATFILE=/home/wiedii/wiedii/etc/config/network/interfaces.yml ./up ovpn_tap0
 
 # require 'pp' # DEBUG
 
@@ -33,18 +33,18 @@
 gem 'psych', '< 4.0.0'
 require 'psych'
 
-require 'onboard/logger'
-OnBoard.use_default_logfile  # instead of STDOUT
+require 'wiedii/logger'
+Wiedii.use_default_logfile  # instead of STDOUT
 
-require 'onboard/network/interface'
-require 'onboard/network/routing'
+require 'wiedii/network/interface'
+require 'wiedii/network/routing'
 
 
-OnBoard::LOGGER.info "#{__FILE__} #{ARGV.join(' ')}  started."
+Wiedii::LOGGER.info "#{__FILE__} #{ARGV.join(' ')}  started."
 
 ifname = ARGV[0]
 
-all_interfaces = OnBoard::Network::Interface.getAll
+all_interfaces = Wiedii::Network::Interface.getAll
 
 if File.exists? ENV['NETWORK_INTERFACES_DATFILE']
   begin
@@ -73,27 +73,27 @@ end
 netifs = all_interfaces.select{|x| x.name == ifname}
 netifs_saved = all_interfaces_saved.select{|x| x.name == ifname}
 
-OnBoard::Network::Interface.restore(
+Wiedii::Network::Interface.restore(
   :saved_interfaces => netifs_saved,
   :current_interfaces => netifs
 )
 
 # For bridged TAP, implement our own persistence...
 if ENV['bridge_to'] =~ /\S/
-  br = OnBoard::Network::Bridge.get_all.find{|b| b.name == ENV['bridge_to']}
+  br = Wiedii::Network::Bridge.get_all.find{|b| b.name == ENV['bridge_to']}
   if br
-    OnBoard::System::Command.send_command \
+    Wiedii::System::Command.send_command \
       "ip link set up dev #{ifname}",
       :sudo
-    OnBoard::System::Command.send_command \
+    Wiedii::System::Command.send_command \
       "brctl addif \"#{ENV['bridge_to']}\" #{ifname}",
       :sudo
   end
 end
 
-OnBoard::Network::Routing::Route.restore_static(
+Wiedii::Network::Routing::Route.restore_static(
   :match => lambda { |line| line =~ /dev\s+#{ifname}/ },  # Linux iproute2 syntax
   :file => ENV['STATIC_ROUTES_DATFILE']
 )
 
-OnBoard::LOGGER.info "#{__FILE__} #{ARGV.join(' ')} finished."
+Wiedii::LOGGER.info "#{__FILE__} #{ARGV.join(' ')} finished."

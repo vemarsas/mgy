@@ -1,4 +1,4 @@
 #!/bin/sh
 
-ruby onboard.rb --shutdown --no-web
+ruby wiedii.rb --shutdown --no-web
 

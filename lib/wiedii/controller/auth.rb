@@ -2,7 +2,7 @@
 
 require 'sinatra/base'
 
-class OnBoard
+class Wiedii
   class Controller < ::Sinatra::Base
 
     @@public_access = Set.new

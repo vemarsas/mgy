@@ -1,6 +1,6 @@
-require 'onboard/system/shutdown'
+require 'wiedii/system/shutdown'
 
-class OnBoard
+class Wiedii
   class Controller
 
     get "/system/shutdown.html" do

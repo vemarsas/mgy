@@ -1,11 +1,11 @@
 require 'fileutils'
 require 'yaml'
 
-class OnBoard
+class Wiedii
   module Pub
     module Layout
-      FILESDIR        = File.join OnBoard::RWDIR, 'var/www/pub'
-      CONFDIR         = File.join OnBoard::CONFDIR, 'webif/pub'
+      FILESDIR        = File.join Wiedii::RWDIR, 'var/www/pub'
+      CONFDIR         = File.join Wiedii::CONFDIR, 'webif/pub'
       CONFFILE        = File.join CONFDIR, 'layout.yml'
 
       class << self
