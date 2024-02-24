@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/packet-mangling/ipv6', {
     :href => '/network/packet-mangling/ipv6',
     :name => 'IPv6',

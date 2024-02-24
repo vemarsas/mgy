@@ -1,22 +1,22 @@
 require 'sinatra/base'
 
-require 'onboard/network/routing'
-require 'onboard/network/routing/table'
+require 'wiedii/network/routing'
+require 'wiedii/network/routing/table'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get "/network/routing/tables.:format" do
     format(
       :path     => 'network/routing/tables',
       :format   => params[:format],
       :title    => 'Policy routing: tables',
-      :objects  => OnBoard::Network::Routing::Table.getAllIDs
+      :objects  => Wiedii::Network::Routing::Table.getAllIDs
     )
   end
 
   post "/network/routing/tables.:format" do
     msg = {}
-    all = OnBoard::Network::Routing::Table.getAllIDs
+    all = Wiedii::Network::Routing::Table.getAllIDs
     already_used_numbers  = all['system_tables'].keys + all['custom_tables'].keys
     already_used_names    = (
       all['system_tables'].values +
@@ -33,8 +33,8 @@ class OnBoard::Controller
         if already_used_numbers.include? n
           status 409 # Conflict
           msg = {:err => "Error: table number #{n} already in use."}
-        elsif params['name'] =~ OnBoard::Network::Routing::Table::VALID_NAMES
-          OnBoard::Network::Routing::Table.create_from_HTTP_request(params)
+        elsif params['name'] =~ Wiedii::Network::Routing::Table::VALID_NAMES
+          Wiedii::Network::Routing::Table.create_from_HTTP_request(params)
         else
           status 400
           msg = {:err => "Invalid name: \"#{params['name']}\". Use at least one alphabetical character; you may also use numbers, '-' and '_'."}
@@ -52,7 +52,7 @@ class OnBoard::Controller
       :path     => 'network/routing/tables',
       :format   => params[:format],
       :title    => 'Policy routing: tables',
-      :objects  => OnBoard::Network::Routing::Table.getAllIDs,
+      :objects  => Wiedii::Network::Routing::Table.getAllIDs,
       :msg      => msg
     )
   end
@@ -62,31 +62,31 @@ class OnBoard::Controller
       :path     => 'network/routing/rules',
       :format   => params[:format],
       :title    => 'Policy routing: rules',
-      :objects  => OnBoard::Network::Routing::Rule.getAll
+      :objects  => Wiedii::Network::Routing::Rule.getAll
     )
   end
 
   post "/network/routing/rules.:format" do
-    msg = OnBoard::Network::Routing::Rule.add_from_HTTP_request(params)
+    msg = Wiedii::Network::Routing::Rule.add_from_HTTP_request(params)
     format(
       :path     => 'network/routing/rules',
       :format   => params[:format],
       :title    => 'Policy routing: rules',
-      :objects  => OnBoard::Network::Routing::Rule.getAll,
+      :objects  => Wiedii::Network::Routing::Rule.getAll,
       :msg      => msg
     )
   end
 
   put "/network/routing/rules.:format" do
-    msg = OnBoard::Network::Routing::Rule.change_from_HTTP_request(
+    msg = Wiedii::Network::Routing::Rule.change_from_HTTP_request(
       :http_params    => params,
-      :current_rules  => OnBoard::Network::Routing::Rule.getAll
+      :current_rules  => Wiedii::Network::Routing::Rule.getAll
     )
     format(
       :path     => 'network/routing/rules',
       :format   => params[:format],
       :title    => 'Policy routing: rules',
-      :objects  => OnBoard::Network::Routing::Rule.getAll,
+      :objects  => Wiedii::Network::Routing::Rule.getAll,
       :msg      => msg
     )
   end
@@ -97,9 +97,9 @@ class OnBoard::Controller
         :path     => 'network/routing/table',
         :format   => params[:format],
         :title    => "Routing table: #{params[:table]}",
-        :objects  => OnBoard::Network::Routing::Table.get(params[:table])
+        :objects  => Wiedii::Network::Routing::Table.get(params[:table])
       )
-    rescue OnBoard::Network::Routing::Table::NotFound
+    rescue Wiedii::Network::Routing::Table::NotFound
       raise Sinatra::NotFound
     end
   end
@@ -109,10 +109,10 @@ class OnBoard::Controller
   # A way to retain our code simple but still respect (somewhat)
   # the HTTP semantics.
   put "/network/routing/tables/:table.:format" do
-    table = OnBoard::Network::Routing::Table.get(params[:table])
+    table = Wiedii::Network::Routing::Table.get(params[:table])
     format = params[:format]
     number = table.number
-    all = OnBoard::Network::Routing::Table.getAllIDs
+    all = Wiedii::Network::Routing::Table.getAllIDs
     names = (
       all['system_tables'].values +
       all['custom_tables'].values
@@ -127,8 +127,8 @@ class OnBoard::Controller
       #  status 409 # HTTP Conflict!
       #  msg = {:err => "Name \"#{name}\" already in use!"}
       #elsif
-      if name =~ OnBoard::Network::Routing::Table::VALID_NAMES
-        msg = OnBoard::Network::Routing::Table.rename number, name, comment
+      if name =~ Wiedii::Network::Routing::Table::VALID_NAMES
+        msg = Wiedii::Network::Routing::Table.rename number, name, comment
         if name == ''
             redirect "/network/routing/tables/#{number}.#{format}"
         else
@@ -143,7 +143,7 @@ class OnBoard::Controller
       # the address family (af) is required.
       msg = table.ip_route_del params['ip_route_del'], :af => params['af']
     else
-      msg = OnBoard::Network::Routing::Table.route_from_HTTP_request params
+      msg = Wiedii::Network::Routing::Table.route_from_HTTP_request params
     end
     unless msg[:ok] # TODO: always sure the error is client-side?
       status(400)   # TODO: what is the most appropriate HTTP response in this
@@ -154,7 +154,7 @@ class OnBoard::Controller
       :path     => 'network/routing/table',
       :format   => params[:format],
       :title    => "Routing table: #{params[:table]}",
-      :objects  => OnBoard::Network::Routing::Table.get(params['table']),
+      :objects  => Wiedii::Network::Routing::Table.get(params['table']),
       :msg      => msg
     )
   end
@@ -167,14 +167,14 @@ class OnBoard::Controller
 
   delete "/network/routing/tables/:table.:format" do
     msg = {}
-    table = OnBoard::Network::Routing::Table.get(params['table'])
+    table = Wiedii::Network::Routing::Table.get(params['table'])
     if table.system?
       msg[:err]  = "You cannot delete a system table!"
       status 403 # Forbidden
     else
       begin
         msg = table.delete!
-      rescue OnBoard::Network::Routing::RulesExist
+      rescue Wiedii::Network::Routing::RulesExist
         msg = {
           :err => $!.to_s,
           :err_html => 'Couldn&apos;t delete: one or more <a href="/network/routing/rules.html">rules</a> still refer to this table! <a href="/network/routing/rules.html">Delete them</a> and try again.'
@@ -189,7 +189,7 @@ class OnBoard::Controller
         :path     => 'network/routing/table',
         :format   => params[:format],
         :title    => "Routing table: #{params['table']}",
-        :objects  => OnBoard::Network::Routing::Table.get(params['table']),
+        :objects  => Wiedii::Network::Routing::Table.get(params['table']),
         :msg      => msg
       )
     end

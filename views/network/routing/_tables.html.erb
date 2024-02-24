@@ -1,4 +1,4 @@
-<% require 'onboard/network/routing/table' %>
+<% require 'wiedii/network/routing/table' %>
 
 <table>
   <thead>
@@ -18,7 +18,7 @@
         <% else %>
           <td style="text-align:right;"><a href="tables/<%= name || number %>.html">(no name)</a></td>
         <% end %>
-        <td style="font-style:italic"><%= comments[number] || OnBoard::Network::Routing::Table.id2comment(number, name) || '' %></td>
+        <td style="font-style:italic"><%= comments[number] || Wiedii::Network::Routing::Table.id2comment(number, name) || '' %></td>
       </tr>
     <% end %>
   </tbody>

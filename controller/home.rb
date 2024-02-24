@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   # no homepage for Web Services ;-P
 

@@ -5,7 +5,7 @@ describe 'The App Root' do
   include Rack::Test::Methods
 
   def app
-    OnBoard::Controller
+    Wiedii::Controller
   end
 
   it "responds with landing page" do

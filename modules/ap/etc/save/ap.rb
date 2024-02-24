@@ -1,4 +1,4 @@
-require 'onboard/network/ap'
+require 'wiedii/network/ap'
 
-OnBoard::Network::AP.save
+Wiedii::Network::AP.save
 

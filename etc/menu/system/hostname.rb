@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/system/hostname', {
     :href => '/system/hostname',
     :name => 'Hostname'#,

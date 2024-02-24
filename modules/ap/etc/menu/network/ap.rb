@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/ap', {
     :href     => '/network/ap',
     :name     => 'Wireless Access Point',

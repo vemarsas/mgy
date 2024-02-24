@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/nat/dnat', {
     :href => '/network/nat/dnat',
     :name => 'Destination NAT&nbsp;/&nbsp;Port Mapping',

@@ -1,9 +1,9 @@
 <%
   # encoding: utf-8
 
-  require 'onboard/network/routing'
-  require 'onboard/network/qos/diffserv'
-  require 'onboard/extensions/string' # a "smarter" to_i
+  require 'wiedii/network/routing'
+  require 'wiedii/network/qos/diffserv'
+  require 'wiedii/extensions/string' # a "smarter" to_i
 
   show_delete_checkbox ||= false
 
@@ -41,7 +41,7 @@
         <td>
           <select style="width: 9em;" name="rules[][dscp]">
             <option value=""></option>
-            <% OnBoard::Network::QoS::DSCP.each do |dscp| %>
+            <% Wiedii::Network::QoS::DSCP.each do |dscp| %>
               <option title="<%= dscp[:comment] %>" value="<%= dscp[:value] %>" <%= 'selected' if dscp[:value] == rule.dscp %>><%= dscp[:symbol] %>: <%= dscp[:long_name] %></option>
             <% end %>
           </select>

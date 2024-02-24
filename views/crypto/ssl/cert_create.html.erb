@@ -8,7 +8,7 @@
     <% else %>
       <% if msg[:err].kind_of? OpenSSL::X509::CertificateError %>
         Invalid certificate. <em>OpenSSL</em> reported: <span style="margin-left:1ex;">&ldquo;<code><%= escape_html msg[:err] %></code>&rdquo;.</span>
-      <% elsif msg[:err].kind_of? ::OnBoard::Crypto::SSL::ArgumentError %>
+      <% elsif msg[:err].kind_of? ::Wiedii::Crypto::SSL::ArgumentError %>
         Cerificate error:
           <code style="margin-left:1ex;"><%= escape_html msg[:err] %></code>.
       <% else %>

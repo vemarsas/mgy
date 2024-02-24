@@ -1,7 +1,7 @@
 <%
   require 'uri'
   require 'rack/utils'
-  require 'onboard/extensions/sinatra/base'
+  require 'wiedii/extensions/sinatra/base'
 
   names = request.path_info.sub(/\.html$/, "").split('/')
   basepath = "/"

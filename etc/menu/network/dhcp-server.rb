@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/dhcp-server', {
     :href => '/network/dhcp-server',
     :name => 'DHCP Server',

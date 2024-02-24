@@ -1,4 +1,4 @@
-require 'onboard/network/dnsmasq'
+require 'wiedii/network/dnsmasq'
 
-OnBoard::Network::Dnsmasq.save
+Wiedii::Network::Dnsmasq.save
 

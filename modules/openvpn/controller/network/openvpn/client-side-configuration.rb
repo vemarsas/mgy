@@ -7,7 +7,7 @@ gem 'rubyzip', '>= 1.0.0'
 require 'zip'
 require 'sinatra/base'
 
-class OnBoard
+class Wiedii
 
   class Controller < Sinatra::Base
 

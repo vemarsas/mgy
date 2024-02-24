@@ -1,8 +1,8 @@
-require 'onboard/network/routing'
+require 'wiedii/network/routing'
 
-OnBoard::Network::Routing::Route.save_static
+Wiedii::Network::Routing::Route.save_static
 
-OnBoard::Network::Routing::Rule.save
+Wiedii::Network::Routing::Rule.save
 
 
 

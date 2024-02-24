@@ -1,4 +1,4 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/network/routing', {
     :name => 'Routing',
     #:n    => -10

@@ -53,7 +53,7 @@
         cert                  = value['cert']
         cn                    = cert['subject']['CN']
         subject_html_info     =
-            ::OnBoard::Crypto::SSL::x509_Name_Hash_to_html_address(
+            ::Wiedii::Crypto::SSL::x509_Name_Hash_to_html_address(
                 cert['subject'] )
 
         #new_get_params = get_params.merge('cn' => cn)
@@ -66,7 +66,7 @@
         <td><%= cert['subject']['CN'] %></td>
         <td>
           <%=
-            ::OnBoard::Crypto::SSL::x509_Name_Hash_to_html_address(
+            ::Wiedii::Crypto::SSL::x509_Name_Hash_to_html_address(
                 cert['subject'] )
           %>
         </td>

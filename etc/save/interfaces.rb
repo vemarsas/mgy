@@ -1,4 +1,4 @@
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
-OnBoard::Network::Interface.save
+Wiedii::Network::Interface.save
 

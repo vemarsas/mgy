@@ -1,11 +1,11 @@
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/crypto', {
     :name => 'Cryptography',
     :n    => 3
   })
 end
 
-class OnBoard
+class Wiedii
   MENU_ROOT.add_path('/crypto/easy-rsa', {
     :href => '/crypto/easy-rsa',
     :name => 'Manage PKIs',

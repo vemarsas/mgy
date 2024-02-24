@@ -1,8 +1,8 @@
 require 'sinatra/base'
 
-require 'onboard/network/ap'
+require 'wiedii/network/ap'
 
-class OnBoard
+class Wiedii
   class Controller < Sinatra::Base
 
     get '/network/ap.:format' do

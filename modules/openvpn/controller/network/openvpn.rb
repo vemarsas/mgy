@@ -1,28 +1,28 @@
 require 'sinatra/base'
 
-require 'onboard/extensions/openssl'
+require 'wiedii/extensions/openssl'
 
-class OnBoard
+class Wiedii
 
   module Crypto
-    autoload :SSL, 'onboard/crypto/ssl'
+    autoload :SSL, 'wiedii/crypto/ssl'
   end
 
   module System
-    autoload :Log, 'onboard/system/log'
+    autoload :Log, 'wiedii/system/log'
   end
 
   module Network
     module OpenVPN
-      autoload :VPN, 'onboard/network/openvpn/vpn'
+      autoload :VPN, 'wiedii/network/openvpn/vpn'
     end
   end
 
   class Controller < Sinatra::Base
 
     get '/network/openvpn.:format' do
-      vpns = OnBoard::Network::OpenVPN::VPN.getAll()
-      OnBoard::Network::OpenVPN::VPN.cleanup_config_files! :vpns => vpns
+      vpns = Wiedii::Network::OpenVPN::VPN.getAll()
+      Wiedii::Network::OpenVPN::VPN.cleanup_config_files! :vpns => vpns
       format(
         :module => 'openvpn',
         :path => '/network/openvpn/vpn',
@@ -36,7 +36,7 @@ class OnBoard
       params['pki'] = 'default' unless params['pki'] =~ /\S/
       params['pki'].strip!
       msg = {:ok => true}
-      vpns = OnBoard::Network::OpenVPN::VPN.getAll()
+      vpns = Wiedii::Network::OpenVPN::VPN.getAll()
       ssl_pki = Crypto::SSL::PKI.new params['pki']
       certfile = "#{ssl_pki.certdir}/#{params['cert']}.crt"
 
@@ -86,17 +86,17 @@ class OnBoard
         }
       end
       if msg[:ok]
-        msg = OnBoard::Network::OpenVPN::VPN.start_from_HTTP_request(params)
+        msg = Wiedii::Network::OpenVPN::VPN.start_from_HTTP_request(params)
       end
       if msg[:ok]
-        vpns = OnBoard::Network::OpenVPN::VPN.getAll()
+        vpns = Wiedii::Network::OpenVPN::VPN.getAll()
         status(201) # HTTP Created
       elsif msg[:status_http]
         status msg[:status_http]
       else
         status(409) # HTTP Conflict by default
       end
-      OnBoard::Network::OpenVPN::VPN.persist_current
+      Wiedii::Network::OpenVPN::VPN.persist_current
       format(
         :module => 'openvpn',
         :path => '/network/openvpn/vpn',
@@ -108,10 +108,10 @@ class OnBoard
     end
 
     put '/network/openvpn.:format' do
-      vpns = OnBoard::Network::OpenVPN::VPN.getAll()
-      msg = OnBoard::Network::OpenVPN::VPN.modify_from_HTTP_request(params)
+      vpns = Wiedii::Network::OpenVPN::VPN.getAll()
+      msg = Wiedii::Network::OpenVPN::VPN.modify_from_HTTP_request(params)
       sleep 0.3 # diiiirty!
-      vpns = OnBoard::Network::OpenVPN::VPN.getAll()
+      vpns = Wiedii::Network::OpenVPN::VPN.getAll()
       # Bringin' an OpenVPN connection up is an asynchronous operation,
       # while bringing it down is synchronous.
       if params['start']
@@ -123,7 +123,7 @@ class OnBoard
           status(200)                       # HTTP 'OK'
         end
       end
-      OnBoard::Network::OpenVPN::VPN.persist_current
+      Wiedii::Network::OpenVPN::VPN.persist_current
       format(
         :module   => 'openvpn',
         :path     => '/network/openvpn/vpn',
@@ -135,7 +135,7 @@ class OnBoard
     end
 
     get '/network/openvpn/vpn/:vpn_identifier.:format' do
-      vpn = OnBoard::Network::OpenVPN::VPN.lookup(
+      vpn = Wiedii::Network::OpenVPN::VPN.lookup(
         :any => params[:vpn_identifier]
       )
       if vpn
@@ -152,14 +152,14 @@ class OnBoard
     end
 
     put '/network/openvpn/vpn/:vpn_identifier.:format' do
-      vpn = OnBoard::Network::OpenVPN::VPN.lookup(
+      vpn = Wiedii::Network::OpenVPN::VPN.lookup(
         :any => params[:vpn_identifier]
       )
       if vpn
         msg = vpn.modify_from_HTTP_request(params)
-        vpn = OnBoard::Network::OpenVPN::VPN.lookup(
+        vpn = Wiedii::Network::OpenVPN::VPN.lookup(
           :any => params[:vpn_identifier]) # update
-        OnBoard::Network::OpenVPN::VPN.persist_current
+        Wiedii::Network::OpenVPN::VPN.persist_current
         format(
           :module   => 'openvpn',
           :path     => '/network/openvpn/vpn/advanced',
@@ -174,17 +174,17 @@ class OnBoard
     end
 
     delete '/network/openvpn/vpn/:vpn_identifier.:format' do
-      vpn = OnBoard::Network::OpenVPN::VPN.lookup(
+      vpn = Wiedii::Network::OpenVPN::VPN.lookup(
         :any => params[:vpn_identifier]
       )
       if vpn
         vpn.stop(:rmlog, :rmconf)
-        OnBoard::Network::OpenVPN::VPN.all_cached.delete vpn
+        Wiedii::Network::OpenVPN::VPN.all_cached.delete vpn
         sleep 0.3 # diiirty!
         redirection = "/network/openvpn.#{params[:format]}"
         status(303)                       # HTTP "See Other"
         headers('Location' => redirection)
-        OnBoard::Network::OpenVPN::VPN.persist_current
+        Wiedii::Network::OpenVPN::VPN.persist_current
         # altough the client will be redirected, an entity-body is always returned
         format(
           :path     => '/303',

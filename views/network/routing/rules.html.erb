@@ -1,9 +1,9 @@
 <%
-  require 'onboard/network/routing'
-  require 'onboard/network/qos/diffserv'
+  require 'wiedii/network/routing'
+  require 'wiedii/network/qos/diffserv'
 
-  all_tables      = OnBoard::Network::Routing::Table.getAllIDs
-  all_interfaces  = OnBoard::Network::Interface.getAll
+  all_tables      = Wiedii::Network::Routing::Table.getAllIDs
+  all_interfaces  = Wiedii::Network::Interface.getAll
   all_rules       = objects
 
 %>
@@ -61,7 +61,7 @@
           :all_tables     => all_tables,
           :all_interfaces => all_interfaces,
           :all_rules      => [ # Array of just one element:
-            OnBoard::Network::Routing::Rule.new( { # a "blank" Routing::Rule object
+            Wiedii::Network::Routing::Rule.new( { # a "blank" Routing::Rule object
               :prio   => nil,
               :from   => 'all',
               :to     => 'all',

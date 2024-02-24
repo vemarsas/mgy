@@ -4,13 +4,13 @@
 # to existent directories in order to customize this script's behavior;
 # ONBOARD_HOME will be unused in such case.
 
-ONBOARD_HOME=/home/onboard
+ONBOARD_HOME=/home/wiedii
 
 if [ ! -d "$ONBOARD_ROOTDIR" ] ; then
-	ONBOARD_ROOTDIR=$ONBOARD_HOME/onboard
+	ONBOARD_ROOTDIR=$ONBOARD_HOME/wiedii
 fi
 if [ ! -d "$ONBOARD_DATADIR" ] ; then
-	ONBOARD_DATADIR=$ONBOARD_HOME/.onboard
+	ONBOARD_DATADIR=$ONBOARD_HOME/.wiedii
 fi
 
 mkdir -vp "$ONBOARD_DATADIR/etc/"

@@ -1,13 +1,13 @@
 require 'pp'
 require 'sinatra/base'
 
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
-class OnBoard::Controller
+class Wiedii::Controller
 
   get '/network/vlan.:format' do
-    objects = OnBoard::Network::Interface.getAll.sort_by(
-      &OnBoard::Network::Interface::PREFERRED_ORDER
+    objects = Wiedii::Network::Interface.getAll.sort_by(
+      &Wiedii::Network::Interface::PREFERRED_ORDER
     )
     format(
       :path     => '/network/vlan',
@@ -18,10 +18,10 @@ class OnBoard::Controller
   end
 
   put '/network/vlan.:format' do
-    OnBoard::Network::Interface.set_802_1q_trunks(params['vlan']['trunk'])
+    Wiedii::Network::Interface.set_802_1q_trunks(params['vlan']['trunk'])
 
-    updated_objects = OnBoard::Network::Interface.getAll.sort_by(
-        &OnBoard::Network::Interface::PREFERRED_ORDER
+    updated_objects = Wiedii::Network::Interface.getAll.sort_by(
+        &Wiedii::Network::Interface::PREFERRED_ORDER
     )
 
     format(

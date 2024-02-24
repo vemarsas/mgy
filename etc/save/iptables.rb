@@ -1,4 +1,4 @@
-require 'onboard/network/iptables'
+require 'wiedii/network/iptables'
 
-OnBoard::Network::Iptables.save
+Wiedii::Network::Iptables.save
 

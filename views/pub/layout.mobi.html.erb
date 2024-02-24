@@ -2,14 +2,14 @@
 
 # encoding: utf-8
 
-require 'onboard/pub/layout'
+require 'wiedii/pub/layout'
 
 %>
 <!DOCTYPE html>
 <%
   title ||= nil # avoid NameError if no title was set
 
-  c = OnBoard::Pub::Layout.read_conf
+  c = Wiedii::Pub::Layout.read_conf
 %>
 <html>
   <head>

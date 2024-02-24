@@ -1,4 +1,4 @@
-require 'onboard/system/hostname'
+require 'wiedii/system/hostname'
 
-OnBoard::System::Hostname.save
+Wiedii::System::Hostname.save
 
