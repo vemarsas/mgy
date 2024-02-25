@@ -3,7 +3,7 @@
 set +e
 
 # This assumes that the user
-# Wiedii/Wiedii will run-as
+# the app will run-as
 # already exists in the system and can sudo,
 # and the current software project
 # is copied / placed in the relevant directory with proper
@@ -26,6 +26,11 @@ install_conffiles() {
 
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.conf     /etc/
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.d/*:*    /etc/usb_modeswitch.d/
+
+    # Newer iproute2 has defaults in /usr/share instead of /etc, which is now used for overrides
+    # See /usr/share/doc/iproute2/NEWS.Debian.gz
+    mkdir -p                                                            /etc/iproute2
+    cp -v --update=none /usr/share/iproute2/rt_*                        /etc/iproute2/
 }
 
 disable_dhcpcd_master() {
@@ -110,10 +115,32 @@ RestartSec=4
 WantedBy=multi-user.target
 EOF
 
+#TODO: removewhen all saved in /etc (i.e. persisted by the OS)
+cat > /etc/systemd/system/wiedii-persist.service <<EOF
+[Unit]
+Description=Wiedii restore-persistent/teardown service
+After=network.target
+
+[Service]
+Type=oneshot
+User=$APP_USER
+WorkingDirectory=$PROJECT_ROOT
+ExecStart=/usr/bin/env ruby wiedii.rb --restore --no-web
+ExecStop=/usr/bin/env ruby wiedii.rb --shutdown --no-web
+SyslogIdentifier=wiedii-persist
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 systemctl daemon-reload
 
 systemctl enable wiedii
 systemctl start wiedii
+
+systemctl enable wiedii-persist
 
 cd $PROJECT_ROOT  # Apparently needed...
 
