@@ -3,7 +3,7 @@
 set +e
 
 # This assumes that the user
-# Wiedii/Wiedii will run-as
+# the app will run-as
 # already exists in the system and can sudo,
 # and the current software project
 # is copied / placed in the relevant directory with proper
