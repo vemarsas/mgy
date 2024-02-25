@@ -109,6 +109,35 @@ class Wiedii
       find_n_load ROOTDIR + '/etc/menu/'
     end
 
+    # restore scripts, sorted like /etc/rc?.d/ SysVInit/Unix/Linux scripts
+    if ARGV.include? '--restore'
+      restore_scripts =
+          Dir.glob(ROOTDIR + '/etc/restore/[0-9][0-9]*.rb')           #+
+          #Dir.glob(ROOTDIR + '/modules/*/etc/restore/[0-9][0-9]*.rb')
+      Dir.glob(ROOTDIR + '/modules/*').each do |module_dir|
+        next if File.exists? "#{module_dir}/.disable"
+        restore_scripts += Dir.glob("#{module_dir}/etc/restore/[0-9][0-9]*.rb")
+      end
+      restore_scripts.sort!{|x,y| File.basename(x) <=> File.basename(y)}
+      restore_scripts.each do |script|
+        print "loading: #{script}... "
+        STDOUT.flush
+        begin
+          load script and puts "OK"
+        rescue Exception
+          exception = $!
+
+          puts "ERR!"
+          puts "#{exception.class}: #{exception.message}"
+
+          LOGGER.error "loading #{script}: #{exception.inspect}"
+          backtrace_str = "Exception backtrace follows:"
+          exception.backtrace.each{|line| backtrace_str << "\n" << line}
+          LOGGER.error backtrace_str
+        end
+      end
+    end
+    # TODO: DRY DRY DRY
     if ARGV.include? '--shutdown'
       shutdown_scripts =
           Dir.glob(ROOTDIR + '/etc/shutdown/[0-9][0-9]*.rb')
@@ -116,8 +145,6 @@ class Wiedii
         next if File.exists? "#{module_dir}/.disable"
         shutdown_scripts += Dir.glob("#{module_dir}/etc/shutdown/[0-9][0-9]*.rb")
       end
-      # There may not be any shutdown script at this time (we want to rely on OS only)
-      # but keep this somehow legacy logic here in case we want to avail of it again in the future (likely?)
       shutdown_scripts.sort!{|x,y| File.basename(x) <=> File.basename(y)}
       shutdown_scripts.each do |script|
         print "loading: #{script}... "
