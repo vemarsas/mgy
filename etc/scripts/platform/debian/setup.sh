@@ -26,6 +26,11 @@ install_conffiles() {
 
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.conf     /etc/
     install -bvC -m 644 doc/sysadm/examples/etc/usb_modeswitch.d/*:*    /etc/usb_modeswitch.d/
+
+    # Newer iproute2 has defaults in /usr/share instead of /etc, which is now used for overrides
+    # See /usr/share/doc/iproute2/NEWS.Debian.gz
+    mkdir -p /etc/iproute2
+    cp -v -n /usr/share/iproute2/rt_* /etc/iproute2/
 }
 
 disable_dhcpcd_master() {
