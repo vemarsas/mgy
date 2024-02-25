@@ -1,5 +1,5 @@
-require 'onboard/system/hostname'
+require 'wiedii/system/hostname'
 
-OnBoard::System::Hostname.restore
+Wiedii::System::Hostname.restore
 
-OnBoard::System::Hostname.be_resolved
+Wiedii::System::Hostname.be_resolved

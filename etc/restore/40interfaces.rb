@@ -1,6 +1,6 @@
-require 'onboard/network/interface'
+require 'wiedii/network/interface'
 
-OnBoard::Network::Interface.restore
+Wiedii::Network::Interface.restore
 
 
 

@@ -1,8 +1,8 @@
-require 'onboard/system/log'
-require 'onboard/network/openvpn/vpn'
-require 'onboard/network/interface'
+require 'wiedii/system/log'
+require 'wiedii/network/openvpn/vpn'
+require 'wiedii/network/interface'
 
-OnBoard::Network::OpenVPN::VPN.restore()
+Wiedii::Network::OpenVPN::VPN.restore()
 
 
 # Aren't upscripts used instead?
@@ -10,6 +10,6 @@ OnBoard::Network::OpenVPN::VPN.restore()
 # re-run interfaces restore, after new TAP interfaces have been created
 #Thread.new do
 #  sleep 5
-#  OnBoard::Network::Interface.restore()
+#  Wiedii::Network::Interface.restore()
 #end
 

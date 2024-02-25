@@ -1,8 +1,8 @@
-require 'onboard/network/routing'
+require 'wiedii/network/routing'
 
-OnBoard::Network::Routing::Route.restore_static
+Wiedii::Network::Routing::Route.restore_static
 
-OnBoard::Network::Routing::Rule.restore(:flush => true)
+Wiedii::Network::Routing::Rule.restore(:flush => true)
 
 
 

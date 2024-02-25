@@ -1,5 +1,5 @@
-require 'onboard/network/iptables'
+require 'wiedii/network/iptables'
 
-OnBoard::Network::Iptables.restore
+Wiedii::Network::Iptables.restore
 
 

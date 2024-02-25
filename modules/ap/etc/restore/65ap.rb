@@ -1,3 +1,3 @@
-require 'onboard/network/ap'
+require 'wiedii/network/ap'
 
-OnBoard::Network::AP.restore
+Wiedii::Network::AP.restore

@@ -1,5 +1,5 @@
-require 'onboard/network/dnsmasq'
+require 'wiedii/network/dnsmasq'
 
-OnBoard::Network::Dnsmasq.restore
+Wiedii::Network::Dnsmasq.restore
 
 
